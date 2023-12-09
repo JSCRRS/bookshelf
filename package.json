@@ -8,8 +8,10 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "development:start": "./scripts/start-local-dev-env.sh",
+    "development:stop": "/scripts/stop-local-dev-env.sh",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "npm run development:start && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
