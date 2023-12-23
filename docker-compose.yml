@@ -4,7 +4,6 @@ services:
   mysql:
     image: mysql:8
     restart: always
-    container_name: bookshelf-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bookshelf
