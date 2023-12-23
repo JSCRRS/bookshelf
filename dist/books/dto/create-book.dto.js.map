@@ -1,1 +1,1 @@
-{"version":3,"file":"create-book.dto.js","sourceRoot":"","sources":["../../../src/books/dto/create-book.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,aAAa;CAIzB;AAJD,sCAIC"}
+{"version":3,"file":"create-book.dto.js","sourceRoot":"","sources":["../../../src/books/dto/create-book.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,qDAAiE;AAEjE,MAAa,aAAa;CAYzB;AAZD,sCAYC;AATG;IAFC,IAAA,4BAAU,GAAE;IACZ,IAAA,0BAAQ,GAAE;;6CACI;AAIf;IAFC,IAAA,4BAAU,GAAE;IACZ,IAAA,0BAAQ,GAAE;;4CACG;AAId;IAFC,IAAA,4BAAU,GAAE;IACZ,IAAA,0BAAQ,GAAE;;2CACE"}
