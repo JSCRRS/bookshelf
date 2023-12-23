@@ -6,28 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.BooksModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const books_module_1 = require("./books/books.module");
-let AppModule = class AppModule {
+const book_entity_1 = require("./book.entity");
+const books_controller_1 = require("./books.controller");
+const books_service_1 = require("./books.service");
+let BooksModule = class BooksModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.BooksModule = BooksModule;
+exports.BooksModule = BooksModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            typeorm_1.TypeOrmModule.forRoot({
-                type: "mysql",
-                host: "localhost",
-                port: 3306,
-                username: "root",
-                password: "root",
-                database: "bookshelf",
-                autoLoadEntities: true,
-                synchronize: true,
-            }),
-            books_module_1.BooksModule
-        ],
+        imports: [typeorm_1.TypeOrmModule.forFeature([book_entity_1.Book])],
+        providers: [books_service_1.BooksService],
+        controllers: [books_controller_1.BooksController],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], BooksModule);
+//# sourceMappingURL=books.module.js.map
