@@ -26,6 +26,9 @@ let BooksController = class BooksController {
     findAllBooks() {
         return this.booksService.findAllBooks();
     }
+    findBookById(id) {
+        return this.booksService.findBookById(id);
+    }
 };
 exports.BooksController = BooksController;
 __decorate([
@@ -41,6 +44,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], BooksController.prototype, "findAllBooks", null);
+__decorate([
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], BooksController.prototype, "findBookById", null);
 exports.BooksController = BooksController = __decorate([
     (0, common_1.Controller)("books"),
     __metadata("design:paramtypes", [books_service_1.BooksService])

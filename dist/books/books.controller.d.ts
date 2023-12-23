@@ -6,4 +6,5 @@ export declare class BooksController {
     constructor(booksService: BooksService);
     createBook(createBookDto: CreateBookDto): Promise<Book>;
     findAllBooks(): Promise<Book[]>;
+    findBookById(id: string): Promise<Book>;
 }
