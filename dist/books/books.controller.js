@@ -29,6 +29,9 @@ let BooksController = class BooksController {
     findBookById(id) {
         return this.booksService.findBookById(id);
     }
+    deleteBook(id) {
+        return this.booksService.deleteBook(id);
+    }
 };
 exports.BooksController = BooksController;
 __decorate([
@@ -51,6 +54,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], BooksController.prototype, "findBookById", null);
+__decorate([
+    (0, common_1.Delete)(":id"),
+    (0, common_1.HttpCode)(204),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], BooksController.prototype, "deleteBook", null);
 exports.BooksController = BooksController = __decorate([
     (0, common_1.Controller)("books"),
     __metadata("design:paramtypes", [books_service_1.BooksService])

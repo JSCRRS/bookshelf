@@ -7,4 +7,5 @@ export declare class BooksController {
     createBook(createBookDto: CreateBookDto): Promise<Book>;
     findAllBooks(): Promise<Book[]>;
     findBookById(id: string): Promise<Book>;
+    deleteBook(id: string): Promise<void>;
 }
