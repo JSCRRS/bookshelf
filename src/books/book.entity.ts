@@ -6,11 +6,11 @@ export class Book {
   id: string;
 
   @Column()
-  author: string;
+      author: string;
 
   @Column()
-  title: string;
+          title: string;
 
   @Column()
-  year: number;
+          year: number;
 }
