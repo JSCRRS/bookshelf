@@ -1,9 +1,2 @@
 # bookshelf
-a storage for you book collection...
-
-
-
-
-
-
-
+a storage for you book collection
