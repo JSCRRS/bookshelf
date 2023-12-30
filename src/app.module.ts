@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { BooksModule } from './books/books.module';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { BooksModule } from "./books/books.module";
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { BooksModule } from './books/books.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    BooksModule
+    BooksModule,
   ],
 })
 export class AppModule {}
