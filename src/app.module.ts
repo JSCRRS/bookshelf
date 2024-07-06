@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AuthorsController } from './authors/authors.controller';
-import { AuthorsService } from './authors/authors.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { AuthorsModule } from './authors/authors.module';
 
 @Module({
   imports: [
@@ -16,9 +15,8 @@ import { DataSource } from 'typeorm';
       entities: [],
       synchronize: true,
     }),
+    AuthorsModule,
   ],
-  controllers: [AuthorsController],
-  providers: [AuthorsService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
