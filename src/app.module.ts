@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { AuthorsModule } from './authors/authors.module';
+import { Author } from './authors/author.entity';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { AuthorsModule } from './authors/authors.module';
       username: 'bookshelf',
       password: 'root',
       database: 'books',
-      entities: [],
+      entities: [Author],
       synchronize: true,
     }),
     AuthorsModule,

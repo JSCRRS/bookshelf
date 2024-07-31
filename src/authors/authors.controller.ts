@@ -1,12 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Author } from './author.entity';
+import { CreateAuthorDto } from './dto/create-author.dto';
 
-@Controller()
+@ApiTags('Authors')
+@Controller('/authors')
 export class AuthorsController {
-  constructor(private readonly appService: AuthorsService) {}
+  constructor(private readonly service: AuthorsService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @ApiOperation({ summary: 'Creates a new author.' })
+  @ApiResponse({
+    status: 201,
+    description: 'New author created.',
+    type: Author,
+  })
+  @Post()
+  public createAuthor(@Body() author: CreateAuthorDto): Promise<Author> {
+    return this.service.createAutor(author);
   }
 }
