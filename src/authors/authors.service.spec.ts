@@ -7,7 +7,8 @@ import { Repository } from 'typeorm';
 
 const oneAuthor = {
   id: '1',
-  name: 'test',
+  firstName: 'A',
+  lastName: 'B',
 };
 
 describe('AuthorsController', () => {
@@ -34,7 +35,8 @@ describe('AuthorsController', () => {
   describe('create author', () => {
     it('saves and returns an author', async () => {
       const author: CreateAuthorDto = {
-        name: 'test',
+        firstName: 'A',
+        lastName: 'B',
       };
       expect(await authorsService.createAutor(author)).toBe(oneAuthor);
     });

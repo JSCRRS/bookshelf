@@ -4,5 +4,10 @@ export class CreateAuthorDto {
   @IsNotEmpty()
   @MaxLength(50)
   @IsString()
-  public name: string;
+  public firstName: string;
+
+  @IsNotEmpty()
+  @MaxLength(50)
+  @IsString()
+  public lastName: string;
 }

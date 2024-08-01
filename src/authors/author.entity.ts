@@ -6,5 +6,8 @@ export class Author {
   public id: string;
 
   @Column({ type: 'varchar', length: 50 })
-  public name: string;
+  public firstName: string;
+
+  @Column({ type: 'varchar', length: 50 })
+  public lastName: string;
 }

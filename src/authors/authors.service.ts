@@ -12,12 +12,17 @@ export class AuthorsService {
   ) {}
 
   public async createAutor(author: CreateAuthorDto): Promise<Author> {
-    /*     const searchResult = await this.repository.findOneBy({ name: author.name});
+    const searchResult = await this.repository.findOneBy(
+      { firstName: author.firstName } && { lastName: author.lastName },
+    );
     if (searchResult) {
-      throw new ConflictException(`Author with name ${author.name} already exists.`);
-    } */
+      throw new ConflictException(
+        `Author with name '${author.firstName} ${author.lastName}' already exists.`,
+      );
+    }
     return await this.repository.save({
-      name: author.name,
+      firstName: author.firstName,
+      lastName: author.lastName,
     });
   }
 }
