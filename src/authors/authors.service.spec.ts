@@ -13,7 +13,7 @@ const oneAuthor = {
 
 describe('AuthorsController', () => {
   let authorsService: AuthorsService;
-  let repository: Repository<Author>;
+  let repository: Repository<Author>; // eslint-disable-line @typescript-eslint/no-unused-vars
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
