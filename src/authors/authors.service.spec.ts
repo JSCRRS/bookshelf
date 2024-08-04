@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/no-unused-vars: 0 */
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
@@ -12,7 +14,7 @@ const oneAuthor = {
 
 describe('AuthorsController', () => {
   let authorsService: AuthorsService;
-  let repository: Repository<Author>; // eslint-disable-line @typescript-eslint/no-unused-vars
+  let repository: Repository<Author>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
