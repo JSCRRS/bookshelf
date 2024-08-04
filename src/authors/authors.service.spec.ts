@@ -6,7 +6,6 @@ import { Author } from './author.entity';
 import { Repository } from 'typeorm';
 
 const oneAuthor = {
-  id: '1',
   firstName: 'A',
   lastName: 'B',
 };
@@ -23,6 +22,7 @@ describe('AuthorsController', () => {
           provide: getRepositoryToken(Author),
           useValue: {
             save: jest.fn().mockResolvedValue(oneAuthor),
+            findOneBy: jest.fn().mockResolvedValue(null),
           },
         },
       ],
@@ -32,13 +32,21 @@ describe('AuthorsController', () => {
     repository = module.get<Repository<Author>>(getRepositoryToken(Author));
   });
 
-  describe('create author', () => {
-    it('saves and returns an author', async () => {
-      const author: CreateAuthorDto = {
-        firstName: 'A',
-        lastName: 'B',
-      };
-      expect(await authorsService.createAutor(author)).toBe(oneAuthor);
+  describe('createAuthor()', () => {
+    const author: CreateAuthorDto = {
+      firstName: 'A',
+      lastName: 'B',
+    };
+    it('saves and returns an author', () => {
+      expect(authorsService.createAutor(author)).resolves.toEqual(oneAuthor);
+    });
+    it('throws an error, if author already exists', () => {
+      const repoSpy = jest
+        .spyOn(repository, 'findOneBy')
+        .mockResolvedValue({ id: '1', ...oneAuthor });
+      expect(authorsService.createAutor(author)).rejects.toEqual(
+        Error("Author with name 'A B' already exists."),
+      );
     });
   });
 });
