@@ -11,7 +11,7 @@ export class AuthorsService {
     private readonly repository: Repository<Author>,
   ) {}
 
-  public async createAutor(author: CreateAuthorDto): Promise<Author> {
+  public async createAuthor(author: CreateAuthorDto): Promise<Author> {
     const searchResult = await this.repository.findOneBy({
       firstName: author.firstName,
       lastName: author.lastName,

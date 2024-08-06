@@ -17,6 +17,6 @@ export class AuthorsController {
   })
   @Post()
   public createAuthor(@Body() author: CreateAuthorDto): Promise<Author> {
-    return this.service.createAutor(author);
+    return this.service.createAuthor(author);
   }
 }
