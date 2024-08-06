@@ -40,13 +40,13 @@ describe('AuthorsController', () => {
       lastName: 'B',
     };
     it('saves and returns an author', () => {
-      expect(authorsService.createAutor(author)).resolves.toEqual(oneAuthor);
+      expect(authorsService.createAuthor(author)).resolves.toEqual(oneAuthor);
     });
     it('throws an error, if author already exists', () => {
       const repoSpy = jest
         .spyOn(repository, 'findOneBy')
         .mockResolvedValue({ id: '1', ...oneAuthor });
-      expect(authorsService.createAutor(author)).rejects.toEqual(
+      expect(authorsService.createAuthor(author)).rejects.toEqual(
         Error("Author with name 'A B' already exists."),
       );
     });
