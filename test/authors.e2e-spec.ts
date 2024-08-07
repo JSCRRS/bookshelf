@@ -12,7 +12,7 @@ describe('Authors (e2e)', () => {
   };
 
   let app: INestApplication;
-  let authorsService = {
+  const authorsService = {
     createAuthor: () => {
       return { id: '1', ...author };
     },
