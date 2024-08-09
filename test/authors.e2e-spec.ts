@@ -16,6 +16,9 @@ describe('Authors (e2e)', () => {
     createAuthor: () => {
       return { id: '1', ...author };
     },
+    deleteAuthor: () => {
+      return {};
+    },
   };
 
   beforeEach(async () => {
@@ -30,7 +33,7 @@ describe('Authors (e2e)', () => {
     await app.init();
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await app.close();
   });
 
@@ -40,5 +43,13 @@ describe('Authors (e2e)', () => {
       .send(author)
       .expect(201)
       .expect(authorsService.createAuthor());
+  });
+
+  it('deletes an author', () => {
+    const authorId = '111aa111-a11a-111a-a111-11111a111a11';
+    return request(app.getHttpServer())
+      .delete(`/authors/${authorId}`)
+      .expect(204)
+      .expect(authorsService.deleteAuthor());
   });
 });
