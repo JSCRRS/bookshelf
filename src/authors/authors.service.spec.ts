@@ -12,7 +12,7 @@ const oneAuthor = {
   lastName: 'B',
 };
 
-describe('AuthorsController', () => {
+describe('AuthorsService', () => {
   let authorsService: AuthorsService;
   let repository: Repository<Author>;
 
@@ -24,6 +24,7 @@ describe('AuthorsController', () => {
           provide: getRepositoryToken(Author),
           useValue: {
             save: jest.fn().mockResolvedValue(oneAuthor),
+            delete: jest.fn(),
             findOneBy: jest.fn().mockResolvedValue(null),
           },
         },
@@ -48,6 +49,24 @@ describe('AuthorsController', () => {
         .mockResolvedValue({ id: '1', ...oneAuthor });
       expect(authorsService.createAuthor(author)).rejects.toEqual(
         Error("Author with name 'A B' already exists."),
+      );
+    });
+  });
+
+  describe('deleteAuthor()', () => {
+    const authorId = '111aa111-a11a-111a-a111-11111a111a11';
+    it('deletes an author', () => {
+      const repoSpy = jest
+        .spyOn(repository, 'findOneBy')
+        .mockResolvedValue({ id: authorId, ...oneAuthor });
+      expect(authorsService.deleteAuthor(authorId)).resolves.toBeUndefined();
+    });
+    it('throws an error, if author does not exist', () => {
+      const reppSpy = jest
+        .spyOn(repository, 'findOneBy')
+        .mockResolvedValue(null);
+      expect(authorsService.deleteAuthor(authorId)).rejects.toEqual(
+        Error(`Author with id '${authorId}' does not exist.`),
       );
     });
   });
