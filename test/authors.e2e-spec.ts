@@ -16,7 +16,7 @@ describe('Authors (e2e)', () => {
   let app: INestApplication;
   const authorsService = {
     createAuthor: () => {
-      return { id: '1', ...author };
+      return { id: authorId, ...author };
     },
     getAuthorById: () => {
       return { id: authorId, ...author };

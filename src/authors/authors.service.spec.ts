@@ -48,7 +48,7 @@ describe('AuthorsService', () => {
     it('throws an error, if author already exists', () => {
       const repoSpy = jest
         .spyOn(repository, 'findOneBy')
-        .mockResolvedValue({ id: '1', ...oneAuthor });
+        .mockResolvedValue({ id: authorId, ...oneAuthor });
       expect(authorsService.createAuthor(author)).rejects.toEqual(
         Error("Author with name 'A B' already exists."),
       );
