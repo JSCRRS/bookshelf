@@ -18,6 +18,12 @@ describe('Authors (e2e)', () => {
     createAuthor: () => {
       return { id: authorId, ...author };
     },
+    getAllAuthors: () => [
+      {
+        id: authorId,
+        ...author,
+      },
+    ],
     getAuthorById: () => {
       return { id: authorId, ...author };
     },
@@ -48,6 +54,13 @@ describe('Authors (e2e)', () => {
       .send(author)
       .expect(201)
       .expect(authorsService.createAuthor());
+  });
+
+  it('gets all authors', () => {
+    return request(app.getHttpServer())
+      .get('/authors')
+      .expect(200)
+      .expect(authorsService.getAllAuthors());
   });
 
   it('gets an author', () => {

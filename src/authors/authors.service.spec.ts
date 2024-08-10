@@ -27,6 +27,7 @@ describe('AuthorsService', () => {
           useValue: {
             save: jest.fn().mockResolvedValue(oneAuthor),
             delete: jest.fn(),
+            find: jest.fn().mockResolvedValue([{ id: authorId, ...oneAuthor }]),
             findOneBy: jest.fn().mockResolvedValue(null),
           },
         },
@@ -52,6 +53,17 @@ describe('AuthorsService', () => {
       expect(authorsService.createAuthor(author)).rejects.toEqual(
         Error("Author with name 'A B' already exists."),
       );
+    });
+  });
+
+  describe('getAllAuthors()', () => {
+    it('gets all authors', () => {
+      const repoSpy = jest
+        .spyOn(repository, 'find')
+        .mockResolvedValue([{ id: authorId, ...oneAuthor }]);
+      expect(authorsService.getAllAuthors()).resolves.toEqual([
+        { id: authorId, ...oneAuthor },
+      ]);
     });
   });
 
