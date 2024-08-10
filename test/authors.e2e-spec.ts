@@ -11,10 +11,15 @@ describe('Authors (e2e)', () => {
     lastName: 'B',
   };
 
+  const authorId = '111aa111-a11a-111a-a111-11111a111a11';
+
   let app: INestApplication;
   const authorsService = {
     createAuthor: () => {
       return { id: '1', ...author };
+    },
+    getAuthorById: () => {
+      return { id: authorId, ...author };
     },
     deleteAuthor: () => {
       return {};
@@ -45,8 +50,14 @@ describe('Authors (e2e)', () => {
       .expect(authorsService.createAuthor());
   });
 
+  it('gets an author', () => {
+    return request(app.getHttpServer())
+      .get(`/authors/${authorId}`)
+      .expect(200)
+      .expect(authorsService.getAuthorById());
+  });
+
   it('deletes an author', () => {
-    const authorId = '111aa111-a11a-111a-a111-11111a111a11';
     return request(app.getHttpServer())
       .delete(`/authors/${authorId}`)
       .expect(204)
