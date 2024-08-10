@@ -12,6 +12,8 @@ const oneAuthor = {
   lastName: 'B',
 };
 
+const authorId = '111aa111-a11a-111a-a111-11111a111a11';
+
 describe('AuthorsService', () => {
   let authorsService: AuthorsService;
   let repository: Repository<Author>;
@@ -53,8 +55,24 @@ describe('AuthorsService', () => {
     });
   });
 
+  describe('getAuthorById()', () => {
+    it('gets and returns an author by id', () => {
+      const repoSpy = jest
+        .spyOn(repository, 'findOneBy')
+        .mockResolvedValue({ id: authorId, ...oneAuthor });
+      expect(authorsService.getAuthorById(authorId)).resolves.toEqual({
+        id: authorId,
+        ...oneAuthor,
+      });
+    });
+    it('throws an error, if author does not exist', () => {
+      expect(authorsService.getAuthorById(authorId)).rejects.toEqual(
+        Error(`Could not find author with id '${authorId}'.`),
+      );
+    });
+  });
+
   describe('deleteAuthor()', () => {
-    const authorId = '111aa111-a11a-111a-a111-11111a111a11';
     it('deletes an author', () => {
       const repoSpy = jest
         .spyOn(repository, 'findOneBy')
