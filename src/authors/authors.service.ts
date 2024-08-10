@@ -32,6 +32,18 @@ export class AuthorsService {
     });
   }
 
+  public async getAuthorById(id: string): Promise<Author> {
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      return searchResult;
+    } else {
+      throw new HttpException(
+        `Could not find author with id '${id}'.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+
   public async deleteAuthor(id: string): Promise<void> {
     const searchResult = await this.repository.findOneBy({ id: id });
     if (searchResult) {

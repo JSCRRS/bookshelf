@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
@@ -26,6 +27,13 @@ export class AuthorsController {
   @Post()
   public createAuthor(@Body() author: CreateAuthorDto): Promise<Author> {
     return this.service.createAuthor(author);
+  }
+
+  @ApiOperation({ summary: 'Get an author by id.' })
+  @ApiResponse({ status: 200, description: 'Author found.', type: Author })
+  @Get(':id')
+  public getAuthorById(@Param('id') id: string): Promise<Author> {
+    return this.service.getAuthorById(id);
   }
 
   @ApiOperation({ summary: 'Deletes one author.' })
