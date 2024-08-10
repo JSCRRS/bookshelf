@@ -18,7 +18,7 @@ import { CreateAuthorDto } from './dto/create-author.dto';
 export class AuthorsController {
   constructor(private readonly service: AuthorsService) {}
 
-  @ApiOperation({ summary: 'Creates a new author.' })
+  @ApiOperation({ summary: 'Create a new author.' })
   @ApiResponse({
     status: 201,
     description: 'New author created.',
@@ -29,6 +29,17 @@ export class AuthorsController {
     return this.service.createAuthor(author);
   }
 
+  @ApiOperation({ summary: 'Get all authors.' })
+  @ApiResponse({
+    status: 200,
+    description: 'All authors found.',
+    type: [Author],
+  })
+  @Get()
+  public getAllAuthors(): Promise<Author[]> {
+    return this.service.getAllAuthors();
+  }
+
   @ApiOperation({ summary: 'Get an author by id.' })
   @ApiResponse({ status: 200, description: 'Author found.', type: Author })
   @Get(':id')
@@ -36,7 +47,7 @@ export class AuthorsController {
     return this.service.getAuthorById(id);
   }
 
-  @ApiOperation({ summary: 'Deletes one author.' })
+  @ApiOperation({ summary: 'Delete one author.' })
   @ApiResponse({
     status: 204,
     description: 'Author deleted.',
