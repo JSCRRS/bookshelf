@@ -7,12 +7,18 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Author } from './author.entity';
 import { Repository } from 'typeorm';
 
-const oneAuthor = {
+const authorId = '111aa111-a11a-111a-a111-11111a111a11';
+
+const authorFirstLastName: CreateAuthorDto = {
   firstName: 'A',
   lastName: 'B',
 };
 
-const authorId = '111aa111-a11a-111a-a111-11111a111a11';
+const author = {
+  id: authorId,
+  firstName: authorFirstLastName.firstName,
+  lastName: authorFirstLastName.lastName,
+};
 
 describe('AuthorsService', () => {
   let authorsService: AuthorsService;
@@ -25,9 +31,9 @@ describe('AuthorsService', () => {
         {
           provide: getRepositoryToken(Author),
           useValue: {
-            save: jest.fn().mockResolvedValue(oneAuthor),
+            save: jest.fn().mockResolvedValue(author),
             delete: jest.fn(),
-            find: jest.fn().mockResolvedValue([{ id: authorId, ...oneAuthor }]),
+            find: jest.fn().mockResolvedValue([author]),
             findOneBy: jest.fn().mockResolvedValue(null),
           },
         },
@@ -39,18 +45,16 @@ describe('AuthorsService', () => {
   });
 
   describe('createAuthor()', () => {
-    const author: CreateAuthorDto = {
-      firstName: 'A',
-      lastName: 'B',
-    };
     it('saves and returns an author', () => {
-      expect(authorsService.createAuthor(author)).resolves.toEqual(oneAuthor);
+      expect(authorsService.createAuthor(authorFirstLastName)).resolves.toEqual(
+        author,
+      );
     });
     it('throws an error, if author already exists', () => {
       const repoSpy = jest
         .spyOn(repository, 'findOneBy')
-        .mockResolvedValue({ id: authorId, ...oneAuthor });
-      expect(authorsService.createAuthor(author)).rejects.toEqual(
+        .mockResolvedValue(author);
+      expect(authorsService.createAuthor(authorFirstLastName)).rejects.toEqual(
         Error("Author with name 'A B' already exists."),
       );
     });
@@ -60,10 +64,8 @@ describe('AuthorsService', () => {
     it('gets all authors', () => {
       const repoSpy = jest
         .spyOn(repository, 'find')
-        .mockResolvedValue([{ id: authorId, ...oneAuthor }]);
-      expect(authorsService.getAllAuthors()).resolves.toEqual([
-        { id: authorId, ...oneAuthor },
-      ]);
+        .mockResolvedValue([author]);
+      expect(authorsService.getAllAuthors()).resolves.toEqual([author]);
     });
   });
 
@@ -71,11 +73,8 @@ describe('AuthorsService', () => {
     it('gets and returns an author by id', () => {
       const repoSpy = jest
         .spyOn(repository, 'findOneBy')
-        .mockResolvedValue({ id: authorId, ...oneAuthor });
-      expect(authorsService.getAuthorById(authorId)).resolves.toEqual({
-        id: authorId,
-        ...oneAuthor,
-      });
+        .mockResolvedValue(author);
+      expect(authorsService.getAuthorById(authorId)).resolves.toEqual(author);
     });
     it('throws an error, if author does not exist', () => {
       expect(authorsService.getAuthorById(authorId)).rejects.toEqual(
@@ -88,7 +87,7 @@ describe('AuthorsService', () => {
     it('deletes an author', () => {
       const repoSpy = jest
         .spyOn(repository, 'findOneBy')
-        .mockResolvedValue({ id: authorId, ...oneAuthor });
+        .mockResolvedValue(author);
       expect(authorsService.deleteAuthor(authorId)).resolves.toBeUndefined();
     });
     it('throws an error, if author does not exist', () => {

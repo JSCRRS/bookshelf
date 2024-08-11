@@ -6,27 +6,24 @@ import { CreateAuthorDto } from '../src/authors/dto/create-author.dto';
 import { AuthorsService } from '../src/authors/authors.service';
 
 describe('Authors (e2e)', () => {
-  const author: CreateAuthorDto = {
+  const authorId = '111aa111-a11a-111a-a111-11111a111a11';
+
+  const authorFirstLastName: CreateAuthorDto = {
     firstName: 'A',
     lastName: 'B',
   };
 
-  const authorId = '111aa111-a11a-111a-a111-11111a111a11';
+  const author = {
+    id: authorId,
+    firstName: authorFirstLastName.firstName,
+    lastName: authorFirstLastName.lastName,
+  };
 
   let app: INestApplication;
   const authorsService = {
-    createAuthor: () => {
-      return { id: authorId, ...author };
-    },
-    getAllAuthors: () => [
-      {
-        id: authorId,
-        ...author,
-      },
-    ],
-    getAuthorById: () => {
-      return { id: authorId, ...author };
-    },
+    createAuthor: () => author,
+    getAllAuthors: () => [author],
+    getAuthorById: () => author,
     deleteAuthor: () => {
       return {};
     },
@@ -51,7 +48,7 @@ describe('Authors (e2e)', () => {
   it('creates an author', () => {
     return request(app.getHttpServer())
       .post('/authors')
-      .send(author)
+      .send(authorFirstLastName)
       .expect(201)
       .expect(authorsService.createAuthor());
   });
