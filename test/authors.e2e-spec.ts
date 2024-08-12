@@ -19,11 +19,19 @@ describe('Authors (e2e)', () => {
     lastName: authorFirstLastName.lastName,
   };
 
+  const updateAuthor = {
+    firsName: 'C',
+    lastName: 'D',
+  };
+
   let app: INestApplication;
   const authorsService = {
     createAuthor: () => author,
     getAllAuthors: () => [author],
     getAuthorById: () => author,
+    updateAuthor: () => {
+      return { id: authorId, ...updateAuthor };
+    },
     deleteAuthor: () => {
       return {};
     },
@@ -65,6 +73,14 @@ describe('Authors (e2e)', () => {
       .get(`/authors/${authorId}`)
       .expect(200)
       .expect(authorsService.getAuthorById());
+  });
+
+  it('updates an author', () => {
+    return request(app.getHttpServer())
+      .patch(`/authors/${authorId}`)
+      .send(updateAuthor)
+      .expect(200)
+      .expect(authorsService.updateAuthor());
   });
 
   it('deletes an author', () => {

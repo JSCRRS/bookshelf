@@ -5,7 +5,8 @@ import { AuthorsService } from './authors.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Author } from './author.entity';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
+import { UpdateAuthorDto } from './dto/update-author.dto';
 
 const authorId = '111aa111-a11a-111a-a111-11111a111a11';
 
@@ -18,6 +19,12 @@ const author = {
   id: authorId,
   firstName: authorFirstLastName.firstName,
   lastName: authorFirstLastName.lastName,
+};
+
+const updatedAuthor = {
+  id: authorId,
+  firstName: 'C',
+  lastName: 'D',
 };
 
 describe('AuthorsService', () => {
@@ -35,6 +42,7 @@ describe('AuthorsService', () => {
             delete: jest.fn(),
             find: jest.fn().mockResolvedValue([author]),
             findOneBy: jest.fn().mockResolvedValue(null),
+            update: jest.fn().mockResolvedValue(updatedAuthor),
           },
         },
       ],
@@ -80,6 +88,35 @@ describe('AuthorsService', () => {
       expect(authorsService.getAuthorById(authorId)).rejects.toEqual(
         Error(`Could not find author with id '${authorId}'.`),
       );
+    });
+  });
+
+  describe('updateAuthor()', () => {
+    const updateAuthor: UpdateAuthorDto = {
+      firstName: updatedAuthor.firstName,
+      lastName: updatedAuthor.lastName,
+    };
+    it('updates an author', () => {
+      const repoSpy = jest
+        .spyOn(repository, 'findOneBy')
+        .mockResolvedValue(updatedAuthor);
+      expect(
+        authorsService.updateAuthor(authorId, updateAuthor),
+      ).resolves.toEqual(updatedAuthor);
+    });
+    it('throws an error, if there are empty strings in UpdateAuthorDto', () => {
+      const updateAuthor: UpdateAuthorDto = {
+        firstName: '',
+        lastName: '',
+      };
+      expect(
+        authorsService.updateAuthor(authorId, updateAuthor),
+      ).rejects.toEqual(Error('Either firstName or lastName must be given.'));
+    });
+    it('throws an error, if author could not be found', () => {
+      expect(
+        authorsService.updateAuthor(authorId, updateAuthor),
+      ).rejects.toEqual(Error(`Could not find author with id '${authorId}'.`));
     });
   });
 
