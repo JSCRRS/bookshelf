@@ -5,7 +5,7 @@ import { AuthorsService } from './authors.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Author } from './author.entity';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 
 const authorId = '111aa111-a11a-111a-a111-11111a111a11';
