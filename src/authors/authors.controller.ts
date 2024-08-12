@@ -6,12 +6,14 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Author } from './author.entity';
 import { CreateAuthorDto } from './dto/create-author.dto';
+import { UpdateAuthorDto } from './dto/update-author.dto';
 
 @ApiTags('Authors')
 @Controller('/authors')
@@ -45,6 +47,17 @@ export class AuthorsController {
   @Get(':id')
   public getAuthorById(@Param('id') id: string): Promise<Author> {
     return this.service.getAuthorById(id);
+  }
+
+  @ApiOperation({ summary: 'Update an author.' })
+  @ApiResponse({ status: 200, description: 'Author updated.', type: Author })
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  public updateAuthor(
+    @Param('id') id: string,
+    @Body() author: UpdateAuthorDto,
+  ): Promise<Author> {
+    return this.service.updateAuthor(id, author);
   }
 
   @ApiOperation({ summary: 'Delete one author.' })

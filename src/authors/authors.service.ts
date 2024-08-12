@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Author } from './author.entity';
 import { Repository } from 'typeorm';
 import { CreateAuthorDto } from './dto/create-author.dto';
+import { UpdateAuthorDto } from './dto/update-author.dto';
 
 @Injectable()
 export class AuthorsService {
@@ -40,6 +41,32 @@ export class AuthorsService {
     const searchResult = await this.repository.findOneBy({ id: id });
     if (searchResult) {
       return searchResult;
+    } else {
+      throw new HttpException(
+        `Could not find author with id '${id}'.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+
+  public async updateAuthor(
+    id: string,
+    updateAuthorDto: UpdateAuthorDto,
+  ): Promise<Author> {
+    if (!updateAuthorDto.firstName && !updateAuthorDto.lastName) {
+      throw new HttpException(
+        'Either firstName or lastName must be given.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      await this.repository.update(id, {
+        firstName: updateAuthorDto.firstName,
+        lastName: updateAuthorDto.lastName,
+      });
+      return await this.repository.findOneBy({ id: id });
     } else {
       throw new HttpException(
         `Could not find author with id '${id}'.`,
