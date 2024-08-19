@@ -9,6 +9,9 @@ import { Author } from './author.entity';
 import { Repository } from 'typeorm';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { PaginationDto } from 'src/pagination/PaginationDto';
+import { PaginationOptionsDto } from 'src/pagination/PaginationOptionsDto';
+import { PaginationMetaInformationDto } from 'src/pagination/PaginationMetaInformationDto';
 
 @Injectable()
 export class AuthorsService {
@@ -33,8 +36,25 @@ export class AuthorsService {
     });
   }
 
-  public async getAllAuthors(): Promise<Author[]> {
-    return await this.repository.find();
+  public async getAllAuthors(
+    paginationOptionsDto: PaginationOptionsDto,
+  ): Promise<PaginationDto<Author>> {
+    const authorsQueryBuilder = this.repository.createQueryBuilder('authors');
+
+    const authorList = await authorsQueryBuilder
+      .orderBy('authors.lastName')
+      .skip(paginationOptionsDto.skipNumberOfPages)
+      .take(paginationOptionsDto.itemsPerPage)
+      .getMany();
+
+    const numberOfAllItems = await authorsQueryBuilder.getCount();
+
+    const paginationMetaDto = new PaginationMetaInformationDto({
+      numberOfAllItems,
+      paginationOptionsDto,
+    });
+
+    return new PaginationDto(authorList, paginationMetaDto);
   }
 
   public async getAuthorById(id: string): Promise<Author> {

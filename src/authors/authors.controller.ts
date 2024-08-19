@@ -8,12 +8,17 @@ import {
   Param,
   Patch,
   Post,
+  Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Author } from './author.entity';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { PaginationOptionsDto } from 'src/pagination/PaginationOptionsDto';
+import { PaginationDto } from 'src/pagination/PaginationDto';
 
 @ApiTags('Authors')
 @Controller('/authors')
@@ -38,8 +43,11 @@ export class AuthorsController {
     type: [Author],
   })
   @Get()
-  public getAllAuthors(): Promise<Author[]> {
-    return this.service.getAllAuthors();
+  @UsePipes(new ValidationPipe({ transform: true }))
+  public getAllAuthors(
+    @Query() paginationOptionsDto: PaginationOptionsDto,
+  ): Promise<PaginationDto<Author>> {
+    return this.service.getAllAuthors(paginationOptionsDto);
   }
 
   @ApiOperation({ summary: 'Get an author by id.' })
