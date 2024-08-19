@@ -9,9 +9,9 @@ import { Author } from './author.entity';
 import { Repository } from 'typeorm';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
-import { PaginationDto } from 'src/pagination/PaginationDto';
-import { PaginationOptionsDto } from 'src/pagination/PaginationOptionsDto';
-import { PaginationMetaInformationDto } from 'src/pagination/PaginationMetaInformationDto';
+import { PaginationDto } from '../pagination/PaginationDto';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
+import { PaginationMetaInformationDto } from '../pagination/PaginationMetaInformationDto';
 
 @Injectable()
 export class AuthorsService {

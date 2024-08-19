@@ -17,8 +17,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Author } from './author.entity';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
-import { PaginationOptionsDto } from 'src/pagination/PaginationOptionsDto';
-import { PaginationDto } from 'src/pagination/PaginationDto';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
+import { PaginationDto } from '../pagination/PaginationDto';
 
 @ApiTags('Authors')
 @Controller('/authors')
