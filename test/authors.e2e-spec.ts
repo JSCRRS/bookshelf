@@ -24,10 +24,19 @@ describe('Authors (e2e)', () => {
     lastName: 'D',
   };
 
+  const metaInformation = {
+    currentPage: 1,
+    itemsPerPage: 1,
+    numberOfAllItems: 1,
+    numberOfAllPages: 1,
+  };
+
   let app: INestApplication;
   const authorsService = {
     createAuthor: () => author,
-    getAllAuthors: () => [author],
+    getAllAuthors: () => {
+      return { data: [author], metaInformation };
+    },
     getAuthorById: () => author,
     updateAuthor: () => {
       return { id: authorId, ...updateAuthor };
