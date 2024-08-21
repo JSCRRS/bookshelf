@@ -7,6 +7,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Author } from './author.entity';
 import { Repository } from 'typeorm';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 
 const authorId = '111aa111-a11a-111a-a111-11111a111a11';
 
@@ -27,6 +28,13 @@ const updatedAuthor = {
   lastName: 'D',
 };
 
+const metaInformation = {
+  currentPage: 1,
+  itemsPerPage: 1,
+  numberOfAllItems: 1,
+  numberOfAllPages: 1,
+};
+
 describe('AuthorsService', () => {
   let authorsService: AuthorsService;
   let repository: Repository<Author>;
@@ -43,6 +51,13 @@ describe('AuthorsService', () => {
             find: jest.fn().mockResolvedValue([author]),
             findOneBy: jest.fn().mockResolvedValue(author),
             update: jest.fn().mockResolvedValue(updatedAuthor),
+            createQueryBuilder: jest.fn().mockReturnValue({
+              orderBy: jest.fn().mockReturnThis(),
+              skip: jest.fn().mockReturnThis(),
+              take: jest.fn().mockReturnThis(),
+              getCount: jest.fn().mockReturnValue(1),
+              getMany: jest.fn().mockResolvedValue([author]),
+            }),
           },
         },
       ],
@@ -70,7 +85,15 @@ describe('AuthorsService', () => {
 
   describe('getAllAuthors()', () => {
     it('gets all authors', () => {
-      expect(authorsService.getAllAuthors()).resolves.toEqual([author]);
+      const queryParams: PaginationOptionsDto = {
+        currentPage: 1,
+        itemsPerPage: 1,
+        skipNumberOfPages: 0,
+      };
+      expect(authorsService.getAllAuthors(queryParams)).resolves.toEqual({
+        data: [author],
+        metaInformation,
+      });
     });
   });
 
