@@ -1,10 +1,9 @@
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { GenresService } from './genres.service';
 import { Genre } from './genre.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, HttpException, HttpStatus } from '@nestjs/common';
-import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 
 const genreName = {
   name: 'A',
@@ -43,7 +42,7 @@ describe('GenresService', () => {
       const error = {
         code: 'ER_DUP_ENTRY',
       };
-      const repoSpy = jest.spyOn(repository, 'save').mockRejectedValue(error);
+      jest.spyOn(repository, 'save').mockRejectedValue(error);
       expect(genresService.createGenre(genreName)).rejects.toThrow(
         new ConflictException(
           `Genre with name ${genreName.name} already exists.`,
@@ -51,9 +50,7 @@ describe('GenresService', () => {
       );
     });
     it('throws an unspecified error, if something else went wrong', () => {
-      const repoSpy = jest
-        .spyOn(repository, 'save')
-        .mockRejectedValue(Error('Error!'));
+      jest.spyOn(repository, 'save').mockRejectedValue(Error('Error!'));
       expect(genresService.createGenre(genreName)).rejects.toThrow(
         new HttpException('Something went wrong...', HttpStatus.BAD_REQUEST),
       );
