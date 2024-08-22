@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { AuthorsModule } from './authors/authors.module';
 import { Author } from './authors/author.entity';
+import { GenresModule } from './genres/genres.module';
+import { Genre } from './genres/genre.entity';
 
 @Module({
   imports: [
@@ -13,10 +15,11 @@ import { Author } from './authors/author.entity';
       username: 'bookshelf',
       password: 'root',
       database: 'books',
-      entities: [Author],
+      entities: [Author, Genre],
       synchronize: true,
     }),
     AuthorsModule,
+    GenresModule,
   ],
 })
 export class AppModule {
