@@ -5,6 +5,7 @@ import { AuthorsModule } from './authors/authors.module';
 import { Author } from './authors/author.entity';
 import { GenresModule } from './genres/genres.module';
 import { Genre } from './genres/genre.entity';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { Genre } from './genres/genre.entity';
     }),
     AuthorsModule,
     GenresModule,
+    HealthModule,
   ],
 })
 export class AppModule {
