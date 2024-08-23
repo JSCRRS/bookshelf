@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   HealthCheck,
   HealthCheckService,
@@ -6,6 +7,7 @@ import {
   TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 
+@ApiTags('Health Checks')
 @Controller('health')
 export class HealthController {
   constructor(
@@ -14,6 +16,11 @@ export class HealthController {
     private db: TypeOrmHealthIndicator,
   ) {}
 
+  @ApiOperation({ summary: 'Checks if API is up and running.' })
+  @ApiResponse({
+    status: 200,
+    description: 'API is up and running.',
+  })
   @Get()
   @HealthCheck()
   healthCheck() {
@@ -22,6 +29,11 @@ export class HealthController {
     ]);
   }
 
+  @ApiOperation({ summary: 'Checks if database is up and running.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Database is up and running.',
+  })
   @Get('db')
   @HealthCheck()
   checkdb() {
