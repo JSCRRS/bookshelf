@@ -34,4 +34,16 @@ export class GenresService {
       }
     }
   }
+
+  public async getGenreById(id: string): Promise<Genre> {
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      return searchResult;
+    } else {
+      throw new HttpException(
+        `Could not find genre with id '${id}'.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }
