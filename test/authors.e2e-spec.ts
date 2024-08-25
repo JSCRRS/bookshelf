@@ -32,6 +32,7 @@ describe('Authors (e2e)', () => {
   };
 
   let app: INestApplication;
+
   const authorsService = {
     createAuthor: () => author,
     getAllAuthors: () => {
