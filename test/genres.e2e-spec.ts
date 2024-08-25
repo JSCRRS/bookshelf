@@ -5,17 +5,20 @@ import { AppModule } from '../src/app.module';
 import { GenresService } from '../src/genres/genres.service';
 
 describe('Genres (e2e)', () => {
-  const genreName = {
-    name: 'A',
-  };
+  const genreName = 'A';
+
+  const genreId = '111aa111-a11a-111a-a111-11111a111a11';
 
   const genre = {
-    id: '111aa111-a11a-111a-a111-11111a111a11',
-    name: genreName.name,
+    id: genreId,
+    name: genreName,
   };
+
   let app: INestApplication;
+
   const genresService = {
     createGenre: () => genre,
+    getGenreById: () => genre,
   };
 
   beforeEach(async () => {
@@ -40,5 +43,12 @@ describe('Genres (e2e)', () => {
       .send(genreName)
       .expect(201)
       .expect(genresService.createGenre());
+  });
+
+  it('gets a genre', () => {
+    return request(app.getHttpServer())
+      .get(`/genres/${genreId}`)
+      .expect(200)
+      .expect(genresService.getGenreById());
   });
 });
