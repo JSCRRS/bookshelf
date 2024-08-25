@@ -4,7 +4,6 @@ import { Genre } from './genre.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, HttpException, HttpStatus } from '@nestjs/common';
-import { CreateGenreDto } from './dto/create-genre.dto';
 
 const genreName = 'A';
 
@@ -65,9 +64,7 @@ describe('GenresService', () => {
       await expect(genresService.getGenreById(genreId)).resolves.toEqual(genre),
     ]);
     it('throws an error, if genre does not exist', () => {
-      const reposSpy = jest
-        .spyOn(repository, 'findOneBy')
-        .mockResolvedValue(null);
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
       expect(genresService.getGenreById(genreId)).rejects.toThrow(
         Error(`Could not find genre with id '${genreId}'.`),
       );
