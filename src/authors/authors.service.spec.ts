@@ -48,7 +48,6 @@ describe('AuthorsService', () => {
           useValue: {
             save: jest.fn().mockResolvedValue(author),
             delete: jest.fn(),
-            find: jest.fn().mockResolvedValue([author]),
             findOneBy: jest.fn().mockResolvedValue(author),
             update: jest.fn().mockResolvedValue(updatedAuthor),
             createQueryBuilder: jest.fn().mockReturnValue({
