@@ -8,6 +8,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Genre } from './genre.entity';
 import { Repository } from 'typeorm';
 import { CreateGenreDto } from './dto/create-genre.dto';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
+import { PaginationDto } from '../pagination/PaginationDto';
+import { PaginationMetaInformationDto } from '../pagination/PaginationMetaInformationDto';
 
 @Injectable()
 export class GenresService {
@@ -33,6 +36,27 @@ export class GenresService {
         );
       }
     }
+  }
+
+  public async getAllGenres(
+    paginationOptionsDto: PaginationOptionsDto,
+  ): Promise<PaginationDto<Genre>> {
+    const genresQueryBuilder = this.repository.createQueryBuilder('genres');
+
+    const genreList = await genresQueryBuilder
+      .orderBy('genres.name')
+      .skip(paginationOptionsDto.skipNumberOfPages)
+      .take(paginationOptionsDto.itemsPerPage)
+      .getMany();
+
+    const numberOfAllItems = await genresQueryBuilder.getCount();
+
+    const paginationMetaDto = new PaginationMetaInformationDto({
+      numberOfAllItems,
+      paginationOptionsDto,
+    });
+
+    return new PaginationDto(genreList, paginationMetaDto);
   }
 
   public async getGenreById(id: string): Promise<Genre> {
