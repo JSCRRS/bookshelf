@@ -14,10 +14,20 @@ describe('Genres (e2e)', () => {
     name: genreName,
   };
 
+  const metaInformation = {
+    currentPage: 1,
+    itemsPerPage: 1,
+    numberOfAllItems: 1,
+    numberOfAllPages: 1,
+  };
+
   let app: INestApplication;
 
   const genresService = {
     createGenre: () => genre,
+    getAllGenres: () => {
+      return { data: [genre], metaInformation };
+    },
     getGenreById: () => genre,
   };
 
@@ -43,6 +53,13 @@ describe('Genres (e2e)', () => {
       .send(genreName)
       .expect(201)
       .expect(genresService.createGenre());
+  });
+
+  it('gets all genres', () => {
+    return request(app.getHttpServer())
+      .get('/genres')
+      .expect(200)
+      .expect(genresService.getAllGenres());
   });
 
   it('gets a genre', () => {

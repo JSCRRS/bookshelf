@@ -4,6 +4,7 @@ import { Genre } from './genre.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, HttpException, HttpStatus } from '@nestjs/common';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 
 const genreName = 'A';
 
@@ -12,6 +13,13 @@ const genreId = '111aa111-a11a-111a-a111-11111a111a11';
 const genre = {
   id: genreId,
   name: genreName,
+};
+
+const metaInformation = {
+  currentPage: 1,
+  itemsPerPage: 1,
+  numberOfAllItems: 1,
+  numberOfAllPages: 1,
 };
 
 describe('GenresService', () => {
@@ -27,6 +35,13 @@ describe('GenresService', () => {
           useValue: {
             save: jest.fn().mockResolvedValue(genre),
             findOneBy: jest.fn().mockResolvedValue(genre),
+            createQueryBuilder: jest.fn().mockReturnValue({
+              orderBy: jest.fn().mockReturnThis(),
+              skip: jest.fn().mockReturnThis(),
+              take: jest.fn().mockReturnThis(),
+              getCount: jest.fn().mockReturnValue(1),
+              getMany: jest.fn().mockResolvedValue([genre]),
+            }),
           },
         },
       ],
@@ -56,6 +71,20 @@ describe('GenresService', () => {
       expect(genresService.createGenre({ name: genreName })).rejects.toThrow(
         new HttpException('Something went wrong...', HttpStatus.BAD_REQUEST),
       );
+    });
+  });
+
+  describe('getAllGenres()', () => {
+    it('gets all genres', () => {
+      const queryParams: PaginationOptionsDto = {
+        currentPage: 1,
+        itemsPerPage: 1,
+        skipNumberOfPages: 0,
+      };
+      expect(genresService.getAllGenres(queryParams)).resolves.toEqual({
+        data: [genre],
+        metaInformation,
+      });
     });
   });
 
