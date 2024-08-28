@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Genre } from './genre.entity';
 import { Repository } from 'typeorm';
-import { CreateGenreDto } from './dto/create-genre.dto';
+import { CreateUpdateGenreDto } from './dto/create-update-genre.dto';
 import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 import { PaginationDto } from '../pagination/PaginationDto';
 import { PaginationMetaInformationDto } from '../pagination/PaginationMetaInformationDto';
@@ -19,7 +19,7 @@ export class GenresService {
     private readonly repository: Repository<Genre>,
   ) {}
 
-  public async createGenre(genre: CreateGenreDto): Promise<Genre> {
+  public async createGenre(genre: CreateUpdateGenreDto): Promise<Genre> {
     try {
       return await this.repository.save({
         name: genre.name,
@@ -63,6 +63,22 @@ export class GenresService {
     const searchResult = await this.repository.findOneBy({ id: id });
     if (searchResult) {
       return searchResult;
+    } else {
+      throw new HttpException(
+        `Could not find genre with id '${id}'.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+
+  public async updateGenre(
+    id: string,
+    updateGenreDto: CreateUpdateGenreDto,
+  ): Promise<Genre> {
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      await this.repository.update(id, { name: updateGenreDto.name });
+      return await this.repository.findOneBy({ id: id });
     } else {
       throw new HttpException(
         `Could not find genre with id '${id}'.`,
