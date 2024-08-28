@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
-export class CreateGenreDto {
+export class CreateUpdateGenreDto {
   @IsNotEmpty()
   @MaxLength(50)
   @IsString()
