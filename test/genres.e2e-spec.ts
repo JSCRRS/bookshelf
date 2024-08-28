@@ -14,6 +14,10 @@ describe('Genres (e2e)', () => {
     name: genreName,
   };
 
+  const updateGenre = {
+    name: 'B',
+  };
+
   const metaInformation = {
     currentPage: 1,
     itemsPerPage: 1,
@@ -29,6 +33,9 @@ describe('Genres (e2e)', () => {
       return { data: [genre], metaInformation };
     },
     getGenreById: () => genre,
+    updateGenre: () => {
+      return { id: genreId, ...updateGenre };
+    },
   };
 
   beforeEach(async () => {
@@ -67,5 +74,13 @@ describe('Genres (e2e)', () => {
       .get(`/genres/${genreId}`)
       .expect(200)
       .expect(genresService.getGenreById());
+  });
+
+  it('updates a genre', () => {
+    return request(app.getHttpServer())
+      .patch(`/genres/${genreId}`)
+      .send(updateGenre)
+      .expect(200)
+      .expect(genresService.updateGenre());
   });
 });

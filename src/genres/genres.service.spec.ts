@@ -5,6 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, HttpException, HttpStatus } from '@nestjs/common';
 import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
+import { CreateUpdateGenreDto } from './dto/create-update-genre.dto';
 
 const genreName = 'A';
 
@@ -13,6 +14,11 @@ const genreId = '111aa111-a11a-111a-a111-11111a111a11';
 const genre = {
   id: genreId,
   name: genreName,
+};
+
+const updatedGenre = {
+  id: genreId,
+  name: 'B',
 };
 
 const metaInformation = {
@@ -35,6 +41,7 @@ describe('GenresService', () => {
           useValue: {
             save: jest.fn().mockResolvedValue(genre),
             findOneBy: jest.fn().mockResolvedValue(genre),
+            update: jest.fn().mockResolvedValue(updatedGenre),
             createQueryBuilder: jest.fn().mockReturnValue({
               orderBy: jest.fn().mockReturnThis(),
               skip: jest.fn().mockReturnThis(),
@@ -88,13 +95,31 @@ describe('GenresService', () => {
     });
   });
 
-  describe('getGenreById', () => {
+  describe('getGenreById()', () => {
     it('gets and returns a genre by id', async () => [
       await expect(genresService.getGenreById(genreId)).resolves.toEqual(genre),
     ]);
     it('throws an error, if genre does not exist', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
       expect(genresService.getGenreById(genreId)).rejects.toThrow(
+        Error(`Could not find genre with id '${genreId}'.`),
+      );
+    });
+  });
+
+  describe('updateGenre()', () => {
+    const updateGenre: CreateUpdateGenreDto = {
+      name: updatedGenre.name,
+    };
+    it('updates a genre', () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(updatedGenre);
+      expect(genresService.updateGenre(genreId, updateGenre)).resolves.toEqual(
+        updatedGenre,
+      );
+    });
+    it('throws an error, if author could not be found', () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      expect(genresService.updateGenre(genreId, updateGenre)).rejects.toThrow(
         Error(`Could not find genre with id '${genreId}'.`),
       );
     });
