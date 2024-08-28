@@ -74,7 +74,7 @@ describe('AuthorsService', () => {
       );
     });
     it('throws an error, if author already exists', () => {
-      expect(authorsService.createAuthor(authorFirstLastName)).rejects.toEqual(
+      expect(authorsService.createAuthor(authorFirstLastName)).rejects.toThrow(
         Error("Author with name 'A B' already exists."),
       );
     });
@@ -100,7 +100,7 @@ describe('AuthorsService', () => {
     });
     it('throws an error, if author does not exist', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
-      expect(authorsService.getAuthorById(authorId)).rejects.toEqual(
+      expect(authorsService.getAuthorById(authorId)).rejects.toThrow(
         Error(`Could not find author with id '${authorId}'.`),
       );
     });
@@ -124,13 +124,13 @@ describe('AuthorsService', () => {
       };
       expect(
         authorsService.updateAuthor(authorId, updateAuthor),
-      ).rejects.toEqual(Error('Either firstName or lastName must be given.'));
+      ).rejects.toThrow(Error('Either firstName or lastName must be given.'));
     });
     it('throws an error, if author could not be found', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
       expect(
         authorsService.updateAuthor(authorId, updateAuthor),
-      ).rejects.toEqual(Error(`Could not find author with id '${authorId}'.`));
+      ).rejects.toThrow(Error(`Could not find author with id '${authorId}'.`));
     });
   });
 
@@ -140,7 +140,7 @@ describe('AuthorsService', () => {
     });
     it('throws an error, if author does not exist', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
-      expect(authorsService.deleteAuthor(authorId)).rejects.toEqual(
+      expect(authorsService.deleteAuthor(authorId)).rejects.toThrow(
         Error(`Author with id '${authorId}' does not exist.`),
       );
     });
