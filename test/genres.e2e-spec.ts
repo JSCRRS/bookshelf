@@ -36,6 +36,9 @@ describe('Genres (e2e)', () => {
     updateGenre: () => {
       return { id: genreId, ...updateGenre };
     },
+    deleteGenre: () => {
+      return {};
+    },
   };
 
   beforeEach(async () => {
@@ -82,5 +85,12 @@ describe('Genres (e2e)', () => {
       .send(updateGenre)
       .expect(200)
       .expect(genresService.updateGenre());
+  });
+
+  it('deletes a genre', () => {
+    return request(app.getHttpServer())
+      .delete(`/genres/${genreId}`)
+      .expect(204)
+      .expect(genresService.deleteGenre());
   });
 });
