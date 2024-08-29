@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -60,5 +61,16 @@ export class GenresController {
     @Body() genre: CreateUpdateGenreDto,
   ): Promise<Genre> {
     return this.service.updateGenre(id, genre);
+  }
+
+  @ApiOperation({ summary: 'Delete one genre.' })
+  @ApiResponse({
+    status: 204,
+    description: 'Genre deleted.',
+  })
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public deleteGenre(@Param('id') id: string): Promise<void> {
+    return this.service.deleteGenre(id);
   }
 }

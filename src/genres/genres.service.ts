@@ -86,4 +86,16 @@ export class GenresService {
       );
     }
   }
+
+  public async deleteGenre(id: string): Promise<void> {
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      await this.repository.delete(id);
+    } else {
+      throw new HttpException(
+        `Genre with id '${id}' does not exist.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }
