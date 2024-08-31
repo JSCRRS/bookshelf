@@ -1,8 +1,18 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PublishersService } from './publishers.service';
 import { CreateUpdatePublisherDto } from './dto/create-update-gerne.dto';
 import { Publisher } from './publisher.entity';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
+import { PaginationDto } from '../pagination/PaginationDto';
 
 @ApiTags('Publishers')
 @Controller('/publishers')

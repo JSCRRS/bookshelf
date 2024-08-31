@@ -8,6 +8,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Publisher } from './publishers.module';
 import { Repository } from 'typeorm';
 import { CreateUpdatePublisherDto } from './dto/create-update-gerne.dto';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
+import { PaginationDto } from '../pagination/PaginationDto';
+import { PaginationMetaInformationDto } from '../pagination/PaginationMetaInformationDto';
 
 @Injectable()
 export class PublishersService {
