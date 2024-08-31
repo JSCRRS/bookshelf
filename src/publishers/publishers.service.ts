@@ -39,4 +39,26 @@ export class PublishersService {
       }
     }
   }
+
+  public async getAllPublishers(
+    paginationOptionsDto: PaginationOptionsDto,
+  ): Promise<PaginationDto<Publisher>> {
+    const publishersQueryBuilder =
+      this.repository.createQueryBuilder('publishers');
+
+    const publisherList = await publishersQueryBuilder
+      .orderBy('publishers.name')
+      .skip(paginationOptionsDto.skipNumberOfPages)
+      .take(paginationOptionsDto.itemsPerPage)
+      .getMany();
+
+    const numberOfAllItems = await publishersQueryBuilder.getCount();
+
+    const paginationMetaDto = new PaginationMetaInformationDto({
+      numberOfAllItems,
+      paginationOptionsDto,
+    });
+
+    return new PaginationDto(publisherList, paginationMetaDto);
+  }
 }

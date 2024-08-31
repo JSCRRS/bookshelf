@@ -27,4 +27,18 @@ export class PublishersController {
   ): Promise<Publisher> {
     return this.service.createPublisher(publisher);
   }
+
+  @ApiOperation({ summary: 'Get all publishers.' })
+  @ApiResponse({
+    status: 200,
+    description: 'All publishers found.',
+    type: [Publisher],
+  })
+  @Get()
+  @UsePipes(new ValidationPipe({ transform: true }))
+  public getAllPublishers(
+    @Query() paginationOptionsDto: PaginationOptionsDto,
+  ): Promise<PaginationDto<Publisher>> {
+    return this.service.getAllPublishers(paginationOptionsDto);
+  }
 }
