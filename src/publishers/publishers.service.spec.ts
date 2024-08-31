@@ -4,6 +4,7 @@ import { Publisher } from './publisher.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, HttpException, HttpStatus } from '@nestjs/common';
+import { PaginationOptionsDto } from 'src/pagination/PaginationOptionsDto';
 
 const publisherName = 'A';
 
@@ -33,6 +34,13 @@ describe('PublishersService', () => {
           provide: getRepositoryToken(Publisher),
           useValue: {
             save: jest.fn().mockResolvedValue(publisher),
+            createQueryBuilder: jest.fn().mockReturnValue({
+              orderBy: jest.fn().mockReturnThis(),
+              skip: jest.fn().mockReturnThis(),
+              take: jest.fn().mockReturnThis(),
+              getCount: jest.fn().mockReturnValue(1),
+              getMany: jest.fn().mockResolvedValue([publisher]),
+            }),
           },
         },
       ],
@@ -70,6 +78,20 @@ describe('PublishersService', () => {
       ).rejects.toThrow(
         new HttpException('Something went wrong...', HttpStatus.BAD_REQUEST),
       );
+    });
+  });
+
+  describe('getAllPublishers()', () => {
+    it('gets all publishers', () => {
+      const queryParams: PaginationOptionsDto = {
+        currentPage: 1,
+        itemsPerPage: 1,
+        skipNumberOfPages: 0,
+      };
+      expect(publishersService.getAllPublishers(queryParams)).resolves.toEqual({
+        data: [publisher],
+        metaInformation,
+      });
     });
   });
 });

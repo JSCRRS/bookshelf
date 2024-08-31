@@ -14,10 +14,20 @@ describe('Publishers (e2e)', () => {
     name: publisherName,
   };
 
+  const metaInformation = {
+    currentPage: 1,
+    itemsPerPage: 1,
+    numberOfAllItems: 1,
+    numberOfAllPages: 1,
+  };
+
   let app: INestApplication;
 
   const publishersService = {
     createPublisher: () => publisher,
+    getAllPublishers: () => {
+      return { data: [publisher], metaInformation };
+    },
   };
 
   beforeEach(async () => {
@@ -36,11 +46,18 @@ describe('Publishers (e2e)', () => {
     await app.close();
   });
 
-  it('creates a genre', () => {
+  it('creates a publisher', () => {
     return request(app.getHttpServer())
       .post('/publishers')
       .send(publisherName)
       .expect(201)
       .expect(publishersService.createPublisher());
+  });
+
+  it('gets all publishers', () => {
+    return request(app.getHttpServer())
+      .get('/publishers')
+      .expect(200)
+      .expect(publishersService.getAllPublishers());
   });
 });
