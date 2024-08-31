@@ -7,6 +7,8 @@ import { GenresModule } from './genres/genres.module';
 import { Genre } from './genres/genre.entity';
 import { HealthModule } from './health/health.module';
 import { ConfigModule } from '@nestjs/config';
+import { Publisher } from './publishers/publisher.entity';
+import { PublishersModule } from './publishers/publishers.module';
 
 @Module({
   imports: [
@@ -18,12 +20,13 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Author, Genre],
+      entities: [Author, Genre, Publisher],
       synchronize: true,
     }),
+    HealthModule,
     AuthorsModule,
     GenresModule,
-    HealthModule,
+    PublishersModule,
   ],
 })
 export class AppModule {
