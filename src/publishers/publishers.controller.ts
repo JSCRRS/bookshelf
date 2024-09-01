@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   UsePipes,
@@ -40,5 +41,16 @@ export class PublishersController {
     @Query() paginationOptionsDto: PaginationOptionsDto,
   ): Promise<PaginationDto<Publisher>> {
     return this.service.getAllPublishers(paginationOptionsDto);
+  }
+
+  @ApiOperation({ summary: 'Get a publisher by id.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Publisher found.',
+    type: Publisher,
+  })
+  @Get(':id')
+  public getPublisherById(@Param('id') id: string): Promise<Publisher> {
+    return this.service.getPublisherById(id);
   }
 }

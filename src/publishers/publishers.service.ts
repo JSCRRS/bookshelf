@@ -61,4 +61,16 @@ export class PublishersService {
 
     return new PaginationDto(publisherList, paginationMetaDto);
   }
+
+  public async getPublisherById(id: string): Promise<Publisher> {
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      return searchResult;
+    } else {
+      throw new HttpException(
+        `Could not find publisher with id '${id}'.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }
