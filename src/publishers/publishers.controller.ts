@@ -2,7 +2,10 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   UsePipes,
@@ -52,5 +55,16 @@ export class PublishersController {
   @Get(':id')
   public getPublisherById(@Param('id') id: string): Promise<Publisher> {
     return this.service.getPublisherById(id);
+  }
+
+  @ApiOperation({ summary: 'Update a publisher' })
+  @ApiResponse({ status: 200, description: 'Publisher updated.' })
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  public updatePublisher(
+    @Param('id') id: string,
+    @Body() publisher: CreateUpdatePublisherDto,
+  ): Promise<Publisher> {
+    return this.service.updatePublisher(id, publisher);
   }
 }

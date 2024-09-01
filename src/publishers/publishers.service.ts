@@ -73,4 +73,20 @@ export class PublishersService {
       );
     }
   }
+
+  public async updatePublisher(
+    id: string,
+    updatePublisherDto: CreateUpdatePublisherDto,
+  ): Promise<Publisher> {
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      await this.repository.update(id, { name: updatePublisherDto.name });
+      return await this.repository.findOneBy({ id: id });
+    } else {
+      throw new HttpException(
+        `Could not find publisher with id '${id}'.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }
