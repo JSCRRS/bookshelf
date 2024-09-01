@@ -28,6 +28,7 @@ describe('Publishers (e2e)', () => {
     getAllPublishers: () => {
       return { data: [publisher], metaInformation };
     },
+    getPublisherById: () => publisher,
   };
 
   beforeEach(async () => {
@@ -59,5 +60,12 @@ describe('Publishers (e2e)', () => {
       .get('/publishers')
       .expect(200)
       .expect(publishersService.getAllPublishers());
+  });
+
+  it('gets a publisher', () => {
+    return request(app.getHttpServer())
+      .get(`/publishers/${publisherId}`)
+      .expect(200)
+      .expect(publishersService.getPublisherById());
   });
 });

@@ -34,6 +34,7 @@ describe('PublishersService', () => {
           provide: getRepositoryToken(Publisher),
           useValue: {
             save: jest.fn().mockResolvedValue(publisher),
+            findOneBy: jest.fn().mockResolvedValue(publisher),
             createQueryBuilder: jest.fn().mockReturnValue({
               orderBy: jest.fn().mockReturnThis(),
               skip: jest.fn().mockReturnThis(),
@@ -92,6 +93,20 @@ describe('PublishersService', () => {
         data: [publisher],
         metaInformation,
       });
+    });
+  });
+
+  describe('getPublisherById()', () => {
+    it('gets and returns a publisher by id', async () => {
+      await expect(
+        publishersService.getPublisherById(publisherId),
+      ).resolves.toEqual(publisher);
+    });
+    it('throws an error, if publisher does not exist', () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      expect(publishersService.getPublisherById(publisherId)).rejects.toThrow(
+        Error(`Could not find publisher with id '${publisherId}'.`),
+      );
     });
   });
 });
