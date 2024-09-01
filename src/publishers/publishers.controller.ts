@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -57,7 +58,7 @@ export class PublishersController {
     return this.service.getPublisherById(id);
   }
 
-  @ApiOperation({ summary: 'Update a publisher' })
+  @ApiOperation({ summary: 'Update a publisher.' })
   @ApiResponse({ status: 200, description: 'Publisher updated.' })
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
@@ -66,5 +67,13 @@ export class PublishersController {
     @Body() publisher: CreateUpdatePublisherDto,
   ): Promise<Publisher> {
     return this.service.updatePublisher(id, publisher);
+  }
+
+  @ApiOperation({ summary: 'Delete a publisher.' })
+  @ApiResponse({ status: 204, description: 'Publisher deleted.' })
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public deletePublisher(@Param('id') id: string): Promise<void> {
+    return this.service.deletePublisher(id);
   }
 }

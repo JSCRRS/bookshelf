@@ -89,4 +89,16 @@ export class PublishersService {
       );
     }
   }
+
+  public async deletePublisher(id: string): Promise<void> {
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      this.repository.delete(id);
+    } else {
+      throw new HttpException(
+        `Publisher with id '${id}' does not exist.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }
