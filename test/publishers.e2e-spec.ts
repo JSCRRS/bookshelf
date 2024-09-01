@@ -35,6 +35,9 @@ describe('Publishers (e2e)', () => {
     },
     getPublisherById: () => publisher,
     updatePublisher: () => publisher,
+    deletePublisher: () => {
+      return {};
+    },
   };
 
   beforeEach(async () => {
@@ -81,5 +84,12 @@ describe('Publishers (e2e)', () => {
       .send(updatedPublisher)
       .expect(200)
       .expect(publishersService.updatePublisher());
+  });
+
+  it('deletes a publisher', () => {
+    return request(app.getHttpServer())
+      .delete(`/publishers/${publisherId}`)
+      .expect(204)
+      .expect(publishersService.deletePublisher());
   });
 });

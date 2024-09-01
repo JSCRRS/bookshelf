@@ -42,6 +42,7 @@ describe('PublishersService', () => {
             save: jest.fn().mockResolvedValue(publisher),
             findOneBy: jest.fn().mockResolvedValue(publisher),
             update: jest.fn().mockResolvedValue(updatedPublisher),
+            delete: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue({
               orderBy: jest.fn().mockReturnThis(),
               skip: jest.fn().mockReturnThis(),
@@ -133,6 +134,20 @@ describe('PublishersService', () => {
         publishersService.updatePublisher(publisherId, updatePublisher),
       ).rejects.toThrow(
         Error(`Could not find publisher with id '${publisherId}'.`),
+      );
+    });
+  });
+
+  describe('deletePublisher', () => {
+    it('deletes a publisher', () => {
+      expect(
+        publishersService.deletePublisher(publisherId),
+      ).resolves.toBeUndefined();
+    });
+    it('throws an error, if publisher could not be found', () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      expect(publishersService.deletePublisher(publisherId)).rejects.toThrow(
+        Error(`Publisher with id '${publisherId}' does not exist.`),
       );
     });
   });
