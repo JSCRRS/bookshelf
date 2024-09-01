@@ -5,6 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, HttpException, HttpStatus } from '@nestjs/common';
 import { PaginationOptionsDto } from 'src/pagination/PaginationOptionsDto';
+import { CreateUpdatePublisherDto } from './dto/create-update-gerne.dto';
 
 const publisherName = 'A';
 
@@ -13,6 +14,11 @@ const publisherId = '111aa111-a11a-111a-a111-11111a111a11';
 const publisher = {
   id: publisherId,
   name: publisherName,
+};
+
+const updatedPublisher = {
+  id: publisherId,
+  name: 'B',
 };
 
 const metaInformation = {
@@ -35,6 +41,7 @@ describe('PublishersService', () => {
           useValue: {
             save: jest.fn().mockResolvedValue(publisher),
             findOneBy: jest.fn().mockResolvedValue(publisher),
+            update: jest.fn().mockResolvedValue(updatedPublisher),
             createQueryBuilder: jest.fn().mockReturnValue({
               orderBy: jest.fn().mockReturnThis(),
               skip: jest.fn().mockReturnThis(),
@@ -105,6 +112,26 @@ describe('PublishersService', () => {
     it('throws an error, if publisher does not exist', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
       expect(publishersService.getPublisherById(publisherId)).rejects.toThrow(
+        Error(`Could not find publisher with id '${publisherId}'.`),
+      );
+    });
+  });
+
+  describe('updatePublisher()', () => {
+    const updatePublisher: CreateUpdatePublisherDto = {
+      name: updatedPublisher.name,
+    };
+    it('updates a publisher', () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(updatedPublisher);
+      expect(
+        publishersService.updatePublisher(publisherId, updatePublisher),
+      ).resolves.toEqual(updatedPublisher);
+    });
+    it('throws an error, if publisher could not be found', () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      expect(
+        publishersService.updatePublisher(publisherId, updatePublisher),
+      ).rejects.toThrow(
         Error(`Could not find publisher with id '${publisherId}'.`),
       );
     });

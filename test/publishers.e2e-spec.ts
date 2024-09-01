@@ -14,6 +14,11 @@ describe('Publishers (e2e)', () => {
     name: publisherName,
   };
 
+  const updatedPublisher = {
+    id: publisherId,
+    name: 'B',
+  };
+
   const metaInformation = {
     currentPage: 1,
     itemsPerPage: 1,
@@ -29,6 +34,7 @@ describe('Publishers (e2e)', () => {
       return { data: [publisher], metaInformation };
     },
     getPublisherById: () => publisher,
+    updatePublisher: () => publisher,
   };
 
   beforeEach(async () => {
@@ -67,5 +73,13 @@ describe('Publishers (e2e)', () => {
       .get(`/publishers/${publisherId}`)
       .expect(200)
       .expect(publishersService.getPublisherById());
+  });
+
+  it('updates a publisher', () => {
+    return request(app.getHttpServer())
+      .patch(`/publishers/${publisherId}`)
+      .send(updatedPublisher)
+      .expect(200)
+      .expect(publishersService.updatePublisher());
   });
 });
