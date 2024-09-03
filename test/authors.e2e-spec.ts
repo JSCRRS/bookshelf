@@ -8,20 +8,23 @@ import { AuthorsService } from '../src/authors/authors.service';
 describe('Authors (e2e)', () => {
   const authorId = '111aa111-a11a-111a-a111-11111a111a11';
 
-  const authorFirstLastName: CreateAuthorDto = {
+  const createAuthorDto: CreateAuthorDto = {
     firstName: 'A',
     lastName: 'B',
+    birthDate: '2000-01-01',
   };
 
   const author = {
     id: authorId,
-    firstName: authorFirstLastName.firstName,
-    lastName: authorFirstLastName.lastName,
+    firstName: createAuthorDto.firstName,
+    lastName: createAuthorDto.lastName,
+    birthDate: createAuthorDto.birthDate,
   };
 
   const updateAuthor = {
     firsName: 'C',
     lastName: 'D',
+    birthDate: '2002-02-02',
   };
 
   const metaInformation = {
@@ -66,7 +69,7 @@ describe('Authors (e2e)', () => {
   it('creates an author', () => {
     return request(app.getHttpServer())
       .post('/authors')
-      .send(authorFirstLastName)
+      .send(createAuthorDto)
       .expect(201)
       .expect(authorsService.createAuthor());
   });

@@ -10,4 +10,7 @@ export class Author {
 
   @Column({ type: 'varchar', length: 50 })
   public lastName: string;
+
+  @Column({ type: 'date' })
+  public birthDate: string;
 }

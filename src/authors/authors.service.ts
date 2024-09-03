@@ -33,6 +33,7 @@ export class AuthorsService {
     return await this.repository.save({
       firstName: author.firstName,
       lastName: author.lastName,
+      birthDate: author.birthDate,
     });
   }
 
@@ -73,9 +74,13 @@ export class AuthorsService {
     id: string,
     updateAuthorDto: UpdateAuthorDto,
   ): Promise<Author> {
-    if (!updateAuthorDto.firstName && !updateAuthorDto.lastName) {
+    if (
+      !updateAuthorDto.firstName &&
+      !updateAuthorDto.lastName &&
+      !updateAuthorDto.birthDate
+    ) {
       throw new HttpException(
-        'Either firstName or lastName must be given.',
+        'Either firstName, lastName, or birthDate must be given.',
         HttpStatus.BAD_REQUEST,
       );
     }

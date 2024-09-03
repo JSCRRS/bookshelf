@@ -11,21 +11,24 @@ import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 
 const authorId = '111aa111-a11a-111a-a111-11111a111a11';
 
-const authorFirstLastName: CreateAuthorDto = {
+const createAuthorDto: CreateAuthorDto = {
   firstName: 'A',
   lastName: 'B',
+  birthDate: '2000-01-01',
 };
 
 const author = {
   id: authorId,
-  firstName: authorFirstLastName.firstName,
-  lastName: authorFirstLastName.lastName,
+  firstName: createAuthorDto.firstName,
+  lastName: createAuthorDto.lastName,
+  birthDate: createAuthorDto.birthDate,
 };
 
 const updatedAuthor = {
   id: authorId,
   firstName: 'C',
   lastName: 'D',
+  birthDate: '2002-02-02',
 };
 
 const metaInformation = {
@@ -69,12 +72,12 @@ describe('AuthorsService', () => {
   describe('createAuthor()', () => {
     it('saves and returns an author', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
-      expect(authorsService.createAuthor(authorFirstLastName)).resolves.toEqual(
+      expect(authorsService.createAuthor(createAuthorDto)).resolves.toEqual(
         author,
       );
     });
     it('throws an error, if author already exists', () => {
-      expect(authorsService.createAuthor(authorFirstLastName)).rejects.toThrow(
+      expect(authorsService.createAuthor(createAuthorDto)).rejects.toThrow(
         Error("Author with name 'A B' already exists."),
       );
     });
@@ -110,6 +113,7 @@ describe('AuthorsService', () => {
     const updateAuthor: UpdateAuthorDto = {
       firstName: updatedAuthor.firstName,
       lastName: updatedAuthor.lastName,
+      birthDate: updatedAuthor.birthDate,
     };
     it('updates an author', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(updatedAuthor);
@@ -121,10 +125,13 @@ describe('AuthorsService', () => {
       const updateAuthor: UpdateAuthorDto = {
         firstName: '',
         lastName: '',
+        birthDate: '',
       };
       expect(
         authorsService.updateAuthor(authorId, updateAuthor),
-      ).rejects.toThrow(Error('Either firstName or lastName must be given.'));
+      ).rejects.toThrow(
+        Error('Either firstName, lastName, or birthDate must be given.'),
+      );
     });
     it('throws an error, if author could not be found', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);

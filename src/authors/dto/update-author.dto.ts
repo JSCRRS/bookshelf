@@ -10,4 +10,8 @@ export class UpdateAuthorDto {
   @MaxLength(50)
   @IsString()
   public lastName: string;
+
+  @IsOptional()
+  @IsString()
+  public birthDate: string;
 }
