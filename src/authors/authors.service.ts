@@ -79,10 +79,12 @@ export class AuthorsService {
     if (
       !updateAuthorDto.firstName &&
       !updateAuthorDto.lastName &&
-      !updateAuthorDto.birthDate
+      !updateAuthorDto.birthDate &&
+      !updateAuthorDto.cityOfBirth &&
+      !updateAuthorDto.countryOfBirth
     ) {
       throw new HttpException(
-        'Either firstName, lastName, or birthDate must be given.',
+        'Either firstName, lastName, birthDate, cityOfBirth, or countryOfBirth must be given.',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -92,6 +94,9 @@ export class AuthorsService {
       await this.repository.update(id, {
         firstName: updateAuthorDto.firstName,
         lastName: updateAuthorDto.lastName,
+        birthDate: updateAuthorDto.birthDate,
+        cityOfBirth: updateAuthorDto.cityOfBirth,
+        countryOfBirth: updateAuthorDto.countryOfBirth,
       });
       return await this.repository.findOneBy({ id: id });
     } else {
