@@ -16,10 +16,12 @@ export class UpdateAuthorDto {
   public birthDate?: string;
 
   @IsOptional()
+  @MaxLength(20)
   @IsString()
   public cityOfBirth?: string;
 
   @IsOptional()
+  @MaxLength(50)
   @IsString()
   public countryOfBirth?: string;
 }
