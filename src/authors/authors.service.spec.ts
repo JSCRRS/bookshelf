@@ -138,7 +138,9 @@ describe('AuthorsService', () => {
       expect(
         authorsService.updateAuthor(authorId, updateAuthor),
       ).rejects.toThrow(
-        Error('Either firstName, lastName, or birthDate must be given.'),
+        Error(
+          'Either firstName, lastName, birthDate, cityOfBirth, or countryOfBirth must be given.',
+        ),
       );
     });
     it('throws an error, if author could not be found', () => {
