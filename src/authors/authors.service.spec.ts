@@ -15,7 +15,8 @@ const createAuthorDto: CreateAuthorDto = {
   firstName: 'A',
   lastName: 'B',
   birthDate: '2000-01-01',
-  cityOfBirth: 'somewhere',
+  cityOfBirth: 'city',
+  countryOfBirth: 'country',
 };
 
 const author = {
@@ -24,6 +25,7 @@ const author = {
   lastName: createAuthorDto.lastName,
   birthDate: createAuthorDto.birthDate,
   cityOfBirth: createAuthorDto.cityOfBirth,
+  countryOfBirth: createAuthorDto.countryOfBirth,
 };
 
 const updatedAuthor = {
@@ -31,7 +33,8 @@ const updatedAuthor = {
   firstName: 'C',
   lastName: 'D',
   birthDate: '2002-02-02',
-  cityOfBirth: 'somewhere_else',
+  cityOfBirth: 'another_city',
+  countryOfBirth: 'another_country',
 };
 
 const metaInformation = {
@@ -118,6 +121,7 @@ describe('AuthorsService', () => {
       lastName: updatedAuthor.lastName,
       birthDate: updatedAuthor.birthDate,
       cityOfBirth: updatedAuthor.cityOfBirth,
+      countryOfBirth: updatedAuthor.countryOfBirth,
     };
     it('updates an author', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(updatedAuthor);

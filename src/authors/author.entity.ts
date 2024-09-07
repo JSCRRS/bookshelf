@@ -16,4 +16,7 @@ export class Author {
 
   @Column({ type: 'varchar', length: 20, nullable: true })
   public cityOfBirth: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  public countryOfBirth: string;
 }

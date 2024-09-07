@@ -18,4 +18,8 @@ export class CreateAuthorDto {
   @IsOptional()
   @IsString()
   public cityOfBirth?: string;
+
+  @IsOptional()
+  @IsString()
+  public countryOfBirth?: string;
 }

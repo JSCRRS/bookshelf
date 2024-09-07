@@ -12,7 +12,8 @@ describe('Authors (e2e)', () => {
     firstName: 'A',
     lastName: 'B',
     birthDate: '2000-01-01',
-    cityOfBirth: 'somewhere',
+    cityOfBirth: 'city',
+    countryOfBirth: 'country',
   };
 
   const author = {
@@ -21,6 +22,7 @@ describe('Authors (e2e)', () => {
     lastName: createAuthorDto.lastName,
     birthDate: createAuthorDto.birthDate,
     cityOfBirth: createAuthorDto.cityOfBirth,
+    countryOfBirth: createAuthorDto.countryOfBirth,
   };
 
   const updateAuthor = {
@@ -28,6 +30,7 @@ describe('Authors (e2e)', () => {
     lastName: 'D',
     birthDate: '2002-02-02',
     cityOfBirth: 'somewhere_else',
+    countryOfBirth: 'another_country',
   };
 
   const metaInformation = {
