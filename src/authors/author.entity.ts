@@ -13,4 +13,7 @@ export class Author {
 
   @Column({ type: 'date' })
   public birthDate: string;
+
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  public cityOfBirth: string;
 }

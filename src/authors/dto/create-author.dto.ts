@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateAuthorDto {
   @IsNotEmpty()
@@ -14,4 +14,8 @@ export class CreateAuthorDto {
   @IsNotEmpty()
   @IsString()
   public birthDate: string;
+
+  @IsOptional()
+  @IsString()
+  public cityOfBirth?: string;
 }

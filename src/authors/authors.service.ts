@@ -34,6 +34,7 @@ export class AuthorsService {
       firstName: author.firstName,
       lastName: author.lastName,
       birthDate: author.birthDate,
+      cityOfBirth: author.cityOfBirth,
     });
   }
 

@@ -13,5 +13,9 @@ export class UpdateAuthorDto {
 
   @IsOptional()
   @IsString()
-  public birthDate: string;
+  public birthDate?: string;
+
+  @IsOptional()
+  @IsString()
+  public cityOfBirth?: string;
 }
