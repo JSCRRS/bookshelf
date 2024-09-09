@@ -14,10 +14,11 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PublishersService } from './publishers.service';
-import { CreateUpdatePublisherDto } from './dto/create-update-gerne.dto';
+import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { Publisher } from './publisher.entity';
 import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 import { PaginationDto } from '../pagination/PaginationDto';
+import { UpdatePublisherDto } from './dto/update-publisher.dto';
 
 @ApiTags('Publishers')
 @Controller('/publishers')
@@ -28,7 +29,7 @@ export class PublishersController {
   @ApiResponse({ status: 201, description: 'New publisher created.' })
   @Post()
   public createPublisher(
-    @Body() publisher: CreateUpdatePublisherDto,
+    @Body() publisher: CreatePublisherDto,
   ): Promise<Publisher> {
     return this.service.createPublisher(publisher);
   }
@@ -64,7 +65,7 @@ export class PublishersController {
   @HttpCode(HttpStatus.OK)
   public updatePublisher(
     @Param('id') id: string,
-    @Body() publisher: CreateUpdatePublisherDto,
+    @Body() publisher: UpdatePublisherDto,
   ): Promise<Publisher> {
     return this.service.updatePublisher(id, publisher);
   }

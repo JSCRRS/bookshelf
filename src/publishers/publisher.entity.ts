@@ -8,4 +8,10 @@ export class Publisher {
 
   @Column({ type: 'varchar', length: 100 })
   public name: string;
+
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  public city: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  public country: string;
 }

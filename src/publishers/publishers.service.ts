@@ -7,7 +7,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Publisher } from './publishers.module';
 import { Repository } from 'typeorm';
-import { CreateUpdatePublisherDto } from './dto/create-update-gerne.dto';
+import { CreatePublisherDto } from './dto/create-publisher.dto';
+import { UpdatePublisherDto } from './dto/update-publisher.dto';
 import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 import { PaginationDto } from '../pagination/PaginationDto';
 import { PaginationMetaInformationDto } from '../pagination/PaginationMetaInformationDto';
@@ -20,11 +21,13 @@ export class PublishersService {
   ) {}
 
   public async createPublisher(
-    publisher: CreateUpdatePublisherDto,
+    publisher: CreatePublisherDto,
   ): Promise<Publisher> {
     try {
       return await this.repository.save({
         name: publisher.name,
+        city: publisher.city,
+        country: publisher.country,
       });
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
@@ -76,11 +79,26 @@ export class PublishersService {
 
   public async updatePublisher(
     id: string,
-    updatePublisherDto: CreateUpdatePublisherDto,
+    updatePublisherDto: UpdatePublisherDto,
   ): Promise<Publisher> {
+    if (
+      !updatePublisherDto.name &&
+      !updatePublisherDto.city &&
+      !updatePublisherDto.country
+    ) {
+      throw new HttpException(
+        'Either name, city, or country must be given.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const searchResult = await this.repository.findOneBy({ id: id });
     if (searchResult) {
-      await this.repository.update(id, { name: updatePublisherDto.name });
+      await this.repository.update(id, {
+        name: updatePublisherDto.name,
+        city: updatePublisherDto.city,
+        country: updatePublisherDto.country,
+      });
       return await this.repository.findOneBy({ id: id });
     } else {
       throw new HttpException(

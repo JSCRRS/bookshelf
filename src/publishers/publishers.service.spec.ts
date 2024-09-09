@@ -5,7 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConflictException, HttpException, HttpStatus } from '@nestjs/common';
 import { PaginationOptionsDto } from 'src/pagination/PaginationOptionsDto';
-import { CreateUpdatePublisherDto } from './dto/create-update-gerne.dto';
+import { UpdatePublisherDto } from './dto/update-publisher.dto';
 
 const publisherName = 'A';
 
@@ -19,6 +19,8 @@ const publisher = {
 const updatedPublisher = {
   id: publisherId,
   name: 'B',
+  city: null,
+  country: null,
 };
 
 const metaInformation = {
@@ -119,7 +121,7 @@ describe('PublishersService', () => {
   });
 
   describe('updatePublisher()', () => {
-    const updatePublisher: CreateUpdatePublisherDto = {
+    const updatePublisher: UpdatePublisherDto = {
       name: updatedPublisher.name,
     };
     it('updates a publisher', () => {
@@ -127,6 +129,16 @@ describe('PublishersService', () => {
       expect(
         publishersService.updatePublisher(publisherId, updatePublisher),
       ).resolves.toEqual(updatedPublisher);
+    });
+    it('throws an error, if there are empty strings in UpdatePublisherDto', () => {
+      const updatePublisher: UpdatePublisherDto = {
+        name: '',
+        city: '',
+        country: '',
+      };
+      expect(
+        publishersService.updatePublisher(publisherId, updatePublisher),
+      ).rejects.toThrow(Error('Either name, city, or country must be given.'));
     });
     it('throws an error, if publisher could not be found', () => {
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
