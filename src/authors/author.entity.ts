@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Book } from '../books/book.entity';
 
 @Entity({ name: 'authors' })
 export class Author {
@@ -19,4 +26,7 @@ export class Author {
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   public countryOfBirth: string;
+
+  @ManyToMany(() => Book, (book) => book.authors)
+  public books: Book[];
 }
