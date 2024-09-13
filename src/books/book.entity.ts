@@ -3,9 +3,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Author } from '../authors/author.entity';
+import { Publisher } from '../publishers/publisher.entity';
 
 @Entity({ name: 'books' })
 export class Book {
@@ -30,6 +32,9 @@ export class Book {
 
   @Column({ type: 'varchar', length: 20 })
   public language: string;
+
+  @ManyToOne(() => Publisher, (publisher) => publisher.books)
+  public publisher: Publisher;
 
   @Column({ type: 'text' })
   public comment: string;
