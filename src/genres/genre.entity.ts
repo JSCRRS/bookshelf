@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
+import { Book } from '../books/book.entity';
 
 @Entity({ name: 'genres' })
 @Unique(['name'])
@@ -8,4 +15,7 @@ export class Genre {
 
   @Column({ type: 'varchar', length: 50 })
   public name: string;
+
+  @ManyToMany(() => Book, (book) => book.genres)
+  public books: Book[];
 }

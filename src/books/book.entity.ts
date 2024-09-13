@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Author } from '../authors/author.entity';
 import { Publisher } from '../publishers/publisher.entity';
+import { Genre } from '../genres/genre.entity';
 
 @Entity({ name: 'books' })
 export class Book {
@@ -35,6 +36,10 @@ export class Book {
 
   @ManyToOne(() => Publisher, (publisher) => publisher.books)
   public publisher: Publisher;
+
+  @ManyToMany(() => Genre, (genre) => genre.books)
+  @JoinTable({ name: 'book_genre_relations' })
+  public genres: Genre[];
 
   @Column({ type: 'text' })
   public comment: string;
