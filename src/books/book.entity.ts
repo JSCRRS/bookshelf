@@ -18,4 +18,19 @@ export class Book {
   @ManyToMany(() => Author, (author) => author.books, { eager: true })
   @JoinTable({ name: 'book_author_relations' })
   public authors: Author[];
+
+  @Column({ type: 'year' })
+  public year: string;
+
+  @Column({ type: 'year', nullable: true })
+  public yearFirstPublished: string;
+
+  @Column({ type: 'tinyint' })
+  public edition: number;
+
+  @Column({ type: 'varchar', length: 20 })
+  public language: string;
+
+  @Column({ type: 'text' })
+  public comment: string;
 }
