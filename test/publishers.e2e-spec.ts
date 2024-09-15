@@ -17,6 +17,7 @@ describe('Publishers (e2e)', () => {
   const updatedPublisher = {
     id: publisherId,
     name: 'B',
+    books: [],
   };
 
   const metaInformation = {

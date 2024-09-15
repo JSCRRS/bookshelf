@@ -31,6 +31,7 @@ describe('Authors (e2e)', () => {
     birthDate: '2002-02-02',
     cityOfBirth: 'somewhere_else',
     countryOfBirth: 'another_country',
+    books: [],
   };
 
   const metaInformation = {

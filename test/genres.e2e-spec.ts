@@ -34,7 +34,7 @@ describe('Genres (e2e)', () => {
     },
     getGenreById: () => genre,
     updateGenre: () => {
-      return { id: genreId, ...updateGenre };
+      return { id: genreId, ...updateGenre, books: [] };
     },
     deleteGenre: () => {
       return {};
