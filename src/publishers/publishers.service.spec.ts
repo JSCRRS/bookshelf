@@ -21,6 +21,7 @@ const updatedPublisher = {
   name: 'B',
   city: null,
   country: null,
+  books: [],
 };
 
 const metaInformation = {

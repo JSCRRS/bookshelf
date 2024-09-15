@@ -35,6 +35,7 @@ const updatedAuthor = {
   birthDate: '2002-02-02',
   cityOfBirth: 'another_city',
   countryOfBirth: 'another_country',
+  books: [],
 };
 
 const metaInformation = {

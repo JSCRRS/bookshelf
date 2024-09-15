@@ -19,6 +19,7 @@ const genre = {
 const updatedGenre = {
   id: genreId,
   name: 'B',
+  books: [],
 };
 
 const metaInformation = {
