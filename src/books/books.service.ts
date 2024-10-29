@@ -31,6 +31,7 @@ export class BooksService {
         : undefined,
       edition: book.edition,
       language: book.language,
+      genres: book.genreIds.map((id) => ({ id })),
       comment: book.comment ? book.comment : undefined,
     });
   }
@@ -38,7 +39,7 @@ export class BooksService {
   public async getBookByIdOrTitle(idOrTitle: string): Promise<Book> {
     const searchResult = await this.repository.findOne({
       where: [{ id: idOrTitle }, { title: idOrTitle }],
-      relations: ['authors'],
+      relations: ['authors', 'genres'],
     });
     if (!searchResult) {
       throw new NotFoundException(

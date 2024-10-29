@@ -9,6 +9,7 @@ describe('Books (e2e)', () => {
   const bookId = '111aa111-a11a-111a-a111-11111a111a11';
   const bookTitle = 'test';
   const authorIds = ['111aa111-a11a-111a-a111-11111a111a11'];
+  const genreIds = ['111aa111-a11a-111a-a111-11111a111a11'];
 
   const createBookDto: CreateBookDto = {
     authorIds: authorIds,
@@ -17,6 +18,7 @@ describe('Books (e2e)', () => {
     yearFirstPublished: undefined,
     edition: 1,
     language: 'english',
+    genreIds: genreIds,
     comment: 'my comment',
   };
 
@@ -29,6 +31,11 @@ describe('Books (e2e)', () => {
     countryOfBirth: 'country',
   };
 
+  const genre = {
+    id: '111aa111-a11a-111a-a111-11111a111a11',
+    name: 'testGenre',
+  };
+
   const book = {
     id: bookId,
     title: createBookDto.title,
@@ -37,11 +44,8 @@ describe('Books (e2e)', () => {
     edition: createBookDto.edition,
     language: createBookDto.language,
     comment: createBookDto.comment,
-    authors: [
-      {
-        id: author.id,
-      },
-    ],
+    authors: [author],
+    genres: [genre],
   };
 
   let app: INestApplication;

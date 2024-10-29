@@ -35,6 +35,10 @@ export class CreateBookDto {
   @MaxLength(20)
   public language: string;
 
+  @ArrayUnique()
+  @IsUUID('all', { each: true })
+  public genreIds: string[];
+
   @IsOptional()
   @IsString()
   public comment?: string;

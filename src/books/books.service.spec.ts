@@ -8,6 +8,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 const bookId = '111aa111-a11a-111a-a111-11111a111a11';
 const bookTitle = 'test';
 const authorIds = ['111aa111-a11a-111a-a111-11111a111a11'];
+const genreIds = ['111aa111-a11a-111a-a111-11111a111a11'];
 
 const createBookDto: CreateBookDto = {
   authorIds: authorIds,
@@ -16,6 +17,7 @@ const createBookDto: CreateBookDto = {
   yearFirstPublished: undefined,
   edition: 1,
   language: 'english',
+  genreIds: genreIds,
   comment: 'my comment',
 };
 
@@ -28,6 +30,11 @@ const author = {
   countryOfBirth: 'country',
 };
 
+const genre = {
+  id: '111aa111-a11a-111a-a111-11111a111a11',
+  name: 'testGenre',
+};
+
 const book = {
   id: bookId,
   title: createBookDto.title,
@@ -36,11 +43,8 @@ const book = {
   edition: createBookDto.edition,
   language: createBookDto.language,
   comment: createBookDto.comment,
-  authors: [
-    {
-      id: author.id,
-    },
-  ],
+  authors: [author],
+  genres: [genre],
 };
 
 describe('BooksService', () => {
