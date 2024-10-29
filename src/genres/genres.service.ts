@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Genre } from './genre.entity';
@@ -64,10 +65,7 @@ export class GenresService {
     if (searchResult) {
       return searchResult;
     } else {
-      throw new HttpException(
-        `Could not find genre with id '${id}'.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Could not find genre with id '${id}'.`);
     }
   }
 
@@ -80,10 +78,7 @@ export class GenresService {
       await this.repository.update(id, { name: updateGenreDto.name });
       return await this.repository.findOneBy({ id: id });
     } else {
-      throw new HttpException(
-        `Could not find genre with id '${id}'.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Could not find genre with id '${id}'.`);
     }
   }
 
@@ -92,10 +87,7 @@ export class GenresService {
     if (searchResult) {
       await this.repository.delete(id);
     } else {
-      throw new HttpException(
-        `Genre with id '${id}' does not exist.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Genre with id '${id}' does not exist.`);
     }
   }
 }

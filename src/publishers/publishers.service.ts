@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Publisher } from './publishers.module';
@@ -70,10 +71,7 @@ export class PublishersService {
     if (searchResult) {
       return searchResult;
     } else {
-      throw new HttpException(
-        `Could not find publisher with id '${id}'.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Could not find publisher with id '${id}'.`);
     }
   }
 
@@ -101,10 +99,7 @@ export class PublishersService {
       });
       return await this.repository.findOneBy({ id: id });
     } else {
-      throw new HttpException(
-        `Could not find publisher with id '${id}'.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Could not find publisher with id '${id}'.`);
     }
   }
 
@@ -113,10 +108,7 @@ export class PublishersService {
     if (searchResult) {
       this.repository.delete(id);
     } else {
-      throw new HttpException(
-        `Publisher with id '${id}' does not exist.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Publisher with id '${id}' does not exist.`);
     }
   }
 }

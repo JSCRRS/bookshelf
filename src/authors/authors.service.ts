@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Author } from './author.entity';
@@ -65,10 +66,7 @@ export class AuthorsService {
     if (searchResult) {
       return searchResult;
     } else {
-      throw new HttpException(
-        `Could not find author with id '${id}'.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Could not find author with id '${id}'.`);
     }
   }
 
@@ -100,10 +98,7 @@ export class AuthorsService {
       });
       return await this.repository.findOneBy({ id: id });
     } else {
-      throw new HttpException(
-        `Could not find author with id '${id}'.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Could not find author with id '${id}'.`);
     }
   }
 
@@ -112,10 +107,7 @@ export class AuthorsService {
     if (searchResult) {
       await this.repository.delete(id);
     } else {
-      throw new HttpException(
-        `Author with id '${id}' does not exist.`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Author with id '${id}' does not exist.`);
     }
   }
 }
