@@ -13,6 +13,7 @@ const createBookDto: CreateBookDto = {
   authorIds: authorIds,
   title: 'test',
   year: '1999',
+  yearFirstPublished: undefined,
 };
 
 const author = {
@@ -28,6 +29,7 @@ const book = {
   id: bookId,
   title: createBookDto.title,
   year: createBookDto.year,
+  yearFirstPublished: null,
   authors: [
     {
       id: author.id,

@@ -28,6 +28,9 @@ export class BooksService {
         : undefined,
       title: book.title,
       year: book.year,
+      yearFirstPublished: book.yearFirstPublished
+        ? book.yearFirstPublished
+        : undefined,
     });
   }
 
