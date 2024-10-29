@@ -34,4 +34,8 @@ export class CreateBookDto {
   @IsString()
   @MaxLength(20)
   public language: string;
+
+  @IsOptional()
+  @IsString()
+  public comment?: string;
 }

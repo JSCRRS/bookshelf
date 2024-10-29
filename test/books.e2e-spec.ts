@@ -17,6 +17,7 @@ describe('Books (e2e)', () => {
     yearFirstPublished: undefined,
     edition: 1,
     language: 'english',
+    comment: 'my comment',
   };
 
   const author = {
@@ -35,6 +36,7 @@ describe('Books (e2e)', () => {
     yearFirstPublished: null,
     edition: createBookDto.edition,
     language: createBookDto.language,
+    comment: createBookDto.comment,
     authors: [
       {
         id: author.id,

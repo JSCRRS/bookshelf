@@ -16,6 +16,7 @@ const createBookDto: CreateBookDto = {
   yearFirstPublished: undefined,
   edition: 1,
   language: 'english',
+  comment: 'my comment',
 };
 
 const author = {
@@ -34,6 +35,7 @@ const book = {
   yearFirstPublished: null,
   edition: createBookDto.edition,
   language: createBookDto.language,
+  comment: createBookDto.comment,
   authors: [
     {
       id: author.id,

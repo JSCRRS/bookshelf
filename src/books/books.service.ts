@@ -33,6 +33,7 @@ export class BooksService {
         : undefined,
       edition: book.edition,
       language: book.language,
+      comment: book.comment ? book.comment : undefined,
     });
   }
 
