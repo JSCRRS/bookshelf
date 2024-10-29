@@ -22,5 +22,5 @@ export class Author {
   public countryOfBirth: string;
 
   @ManyToMany(() => Book, (book) => book.authors)
-  public books: Book[];
+  public books?: Book[];
 }
