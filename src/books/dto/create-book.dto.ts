@@ -29,4 +29,9 @@ export class CreateBookDto {
   @IsNotEmpty()
   @IsNumber()
   public edition: number;
+
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(20)
+  public language: string;
 }

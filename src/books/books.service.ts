@@ -32,6 +32,7 @@ export class BooksService {
         ? book.yearFirstPublished
         : undefined,
       edition: book.edition,
+      language: book.language,
     });
   }
 
