@@ -23,9 +23,7 @@ export class BooksService {
       );
     }
     return await this.repository.save({
-      authors: book.authorIds
-        ? book.authorIds.map((id) => ({ id }))
-        : undefined,
+      authors: book.authorIds.map((id) => ({ id })),
       title: book.title,
       year: book.year,
       yearFirstPublished: book.yearFirstPublished
