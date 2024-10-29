@@ -27,6 +27,7 @@ export class BooksService {
         ? book.authorIds.map((id) => ({ id }))
         : undefined,
       title: book.title,
+      year: book.year,
     });
   }
 

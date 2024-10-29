@@ -13,6 +13,7 @@ describe('Books (e2e)', () => {
   const createBookDto: CreateBookDto = {
     authorIds: authorIds,
     title: 'test',
+    year: '1999',
   };
 
   const author = {
@@ -27,6 +28,7 @@ describe('Books (e2e)', () => {
   const book = {
     id: bookId,
     title: createBookDto.title,
+    year: createBookDto.year,
     authors: [
       {
         id: author.id,

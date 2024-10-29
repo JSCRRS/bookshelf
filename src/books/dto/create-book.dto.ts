@@ -15,4 +15,8 @@ export class CreateBookDto {
   @IsString()
   @MaxLength(100)
   public title: string;
+
+  @IsNotEmpty()
+  @IsString()
+  public year: string;
 }

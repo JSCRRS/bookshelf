@@ -12,6 +12,7 @@ const authorIds = ['111aa111-a11a-111a-a111-11111a111a11'];
 const createBookDto: CreateBookDto = {
   authorIds: authorIds,
   title: 'test',
+  year: '1999',
 };
 
 const author = {
@@ -26,6 +27,7 @@ const author = {
 const book = {
   id: bookId,
   title: createBookDto.title,
+  year: createBookDto.year,
   authors: [
     {
       id: author.id,
