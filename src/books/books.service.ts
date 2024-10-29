@@ -31,6 +31,7 @@ export class BooksService {
       yearFirstPublished: book.yearFirstPublished
         ? book.yearFirstPublished
         : undefined,
+      edition: book.edition,
     });
   }
 

@@ -1,6 +1,7 @@
 import {
   ArrayUnique,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
@@ -24,4 +25,8 @@ export class CreateBookDto {
   @IsOptional()
   @IsString()
   public yearFirstPublished?: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public edition: number;
 }
