@@ -41,6 +41,6 @@ export class Book {
   @JoinTable({ name: 'book_genre_relations' })
   public genres: Genre[];
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   public comment: string;
 }
