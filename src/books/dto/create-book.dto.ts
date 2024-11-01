@@ -7,7 +7,6 @@ import {
   IsUUID,
   MaxLength,
 } from 'class-validator';
-import { Publisher } from 'src/publishers/publisher.entity';
 
 export class CreateBookDto {
   @ArrayUnique()
