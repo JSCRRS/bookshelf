@@ -9,6 +9,7 @@ const bookId = '111aa111-a11a-111a-a111-11111a111a11';
 const bookTitle = 'test';
 const authorIds = ['111aa111-a11a-111a-a111-11111a111a11'];
 const genreIds = ['111aa111-a11a-111a-a111-11111a111a11'];
+const publisherId = '111aa111-a11a-111a-a111-11111a111a11';
 
 const createBookDto: CreateBookDto = {
   authorIds: authorIds,
@@ -17,6 +18,7 @@ const createBookDto: CreateBookDto = {
   yearFirstPublished: undefined,
   edition: 1,
   language: 'english',
+  publisherId: publisherId,
   genreIds: genreIds,
   comment: 'my comment',
 };
@@ -35,6 +37,13 @@ const genre = {
   name: 'testGenre',
 };
 
+const publisher = {
+  id: '111aa111-a11a-111a-a111-11111a111a11',
+  name: 'testPublisher',
+  city: 'testCity',
+  country: 'testCountry',
+};
+
 const book = {
   id: bookId,
   title: createBookDto.title,
@@ -42,6 +51,7 @@ const book = {
   yearFirstPublished: null,
   edition: createBookDto.edition,
   language: createBookDto.language,
+  publisher: publisher,
   comment: createBookDto.comment,
   authors: [author],
   genres: [genre],

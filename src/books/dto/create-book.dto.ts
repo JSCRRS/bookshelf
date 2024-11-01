@@ -7,6 +7,7 @@ import {
   IsUUID,
   MaxLength,
 } from 'class-validator';
+import { Publisher } from 'src/publishers/publisher.entity';
 
 export class CreateBookDto {
   @ArrayUnique()
@@ -34,6 +35,10 @@ export class CreateBookDto {
   @IsString()
   @MaxLength(20)
   public language: string;
+
+  @IsNotEmpty()
+  @IsUUID('all')
+  public publisherId: string;
 
   @ArrayUnique()
   @IsUUID('all', { each: true })
