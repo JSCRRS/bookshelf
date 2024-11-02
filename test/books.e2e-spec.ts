@@ -73,6 +73,9 @@ describe('Books (e2e)', () => {
       return { data: [book], metaInformation };
     },
     getBookByIdOrTitle: () => book,
+    deleteBook: () => {
+      return {};
+    },
   };
 
   beforeEach(async () => {
@@ -112,10 +115,18 @@ describe('Books (e2e)', () => {
       .expect(200)
       .expect(booksService.getBookByIdOrTitle());
   });
+
   it('gets a book by title', () => {
     return request(app.getHttpServer())
       .get(`/books/${bookTitle}`)
       .expect(200)
       .expect(booksService.getBookByIdOrTitle());
+  });
+
+  it('deletes a book', () => {
+    return request(app.getHttpServer())
+      .delete(`/books/${bookId}`)
+      .expect(204)
+      .expect(booksService.deleteBook());
   });
 });

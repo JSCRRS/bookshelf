@@ -79,6 +79,7 @@ describe('BooksService', () => {
             findOneBy: jest.fn().mockResolvedValue(book),
             findOne: jest.fn().mockResolvedValue(book),
             save: jest.fn().mockResolvedValue(book),
+            delete: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue({
               orderBy: jest.fn().mockReturnThis(),
               skip: jest.fn().mockReturnThis(),
@@ -120,7 +121,7 @@ describe('BooksService', () => {
     });
   });
 
-  describe('getBookByIdOrTitle', () => {
+  describe('getBookByIdOrTitle()', () => {
     it('gets and returns a book by id', () => {
       expect(booksService.getBookByIdOrTitle(bookId)).resolves.toEqual(book);
     });
@@ -131,6 +132,18 @@ describe('BooksService', () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(null);
       expect(booksService.getBookByIdOrTitle(bookId)).rejects.toThrow(
         Error(`Could not find book with id or title '${bookId}'.`),
+      );
+    });
+  });
+
+  describe('deleteBook()', () => {
+    it('deletes a book', () => {
+      expect(booksService.deleteBook(bookId)).resolves.toBeUndefined();
+    });
+    it('throws an error, if book does not exist', () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      expect(booksService.deleteBook(bookId)).rejects.toThrow(
+        Error(`Book with id '${bookId}' does not exist.`),
       );
     });
   });
