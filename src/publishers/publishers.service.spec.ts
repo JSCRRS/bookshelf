@@ -44,6 +44,7 @@ describe('PublishersService', () => {
           useValue: {
             save: jest.fn().mockResolvedValue(publisher),
             findOneBy: jest.fn().mockResolvedValue(publisher),
+            findOne: jest.fn().mockResolvedValue(publisher),
             update: jest.fn().mockResolvedValue(updatedPublisher),
             delete: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue({
@@ -114,7 +115,7 @@ describe('PublishersService', () => {
       ).resolves.toEqual(publisher);
     });
     it('throws an error, if publisher does not exist', () => {
-      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
       expect(publishersService.getPublisherById(publisherId)).rejects.toThrow(
         Error(`Could not find publisher with id '${publisherId}'.`),
       );
