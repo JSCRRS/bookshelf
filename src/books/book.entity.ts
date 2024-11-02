@@ -15,7 +15,7 @@ export class Book {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @ManyToMany(() => Author, (author) => author.books, { eager: true })
+  @ManyToMany(() => Author, (author) => author.books)
   @JoinTable({ name: 'book_author_relations' })
   public authors: Author[];
 
