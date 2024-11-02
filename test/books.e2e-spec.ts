@@ -58,10 +58,20 @@ describe('Books (e2e)', () => {
     genres: [genre],
   };
 
+  const metaInformation = {
+    currentPage: 1,
+    itemsPerPage: 1,
+    numberOfAllItems: 1,
+    numberOfAllPages: 1,
+  };
+
   let app: INestApplication;
 
   const booksService = {
     createBook: () => book,
+    getAllBooks: () => {
+      return { data: [book], metaInformation };
+    },
     getBookByIdOrTitle: () => book,
   };
 
@@ -87,6 +97,13 @@ describe('Books (e2e)', () => {
       .send(createBookDto)
       .expect(201)
       .expect(booksService.createBook());
+  });
+
+  it('gets all books', () => {
+    return request(app.getHttpServer())
+      .get('/books')
+      .expect(200)
+      .expect(booksService.getAllBooks());
   });
 
   it('gets a book by id', () => {

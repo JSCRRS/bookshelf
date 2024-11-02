@@ -4,6 +4,7 @@ import { Book } from './book.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateBookDto } from './dto/create-book.dto';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 
 const bookId = '111aa111-a11a-111a-a111-11111a111a11';
 const bookTitle = 'test';
@@ -57,6 +58,13 @@ const book = {
   genres: [genre],
 };
 
+const metaInformation = {
+  currentPage: 1,
+  itemsPerPage: 1,
+  numberOfAllItems: 1,
+  numberOfAllPages: 1,
+};
+
 describe('BooksService', () => {
   let booksService: BooksService;
   let repository: Repository<Book>;
@@ -71,6 +79,13 @@ describe('BooksService', () => {
             findOneBy: jest.fn().mockResolvedValue(book),
             findOne: jest.fn().mockResolvedValue(book),
             save: jest.fn().mockResolvedValue(book),
+            createQueryBuilder: jest.fn().mockReturnValue({
+              orderBy: jest.fn().mockReturnThis(),
+              skip: jest.fn().mockReturnThis(),
+              take: jest.fn().mockReturnThis(),
+              getCount: jest.fn().mockReturnValue(1),
+              getMany: jest.fn().mockResolvedValue([book]),
+            }),
           },
         },
       ],
@@ -88,6 +103,20 @@ describe('BooksService', () => {
       expect(booksService.createBook(createBookDto)).rejects.toThrow(
         Error(`Book with title '${createBookDto.title}' already exists.`),
       );
+    });
+  });
+
+  describe('getAllBooks()', () => {
+    it('gets all books', () => {
+      const queryParams: PaginationOptionsDto = {
+        currentPage: 1,
+        itemsPerPage: 1,
+        skipNumberOfPages: 0,
+      };
+      expect(booksService.getAllBooks(queryParams)).resolves.toEqual({
+        data: [book],
+        metaInformation,
+      });
     });
   });
 
