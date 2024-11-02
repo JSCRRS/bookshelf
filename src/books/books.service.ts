@@ -7,6 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './book.entity';
 import { Repository } from 'typeorm';
 import { CreateBookDto } from './dto/create-book.dto';
+import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
+import { PaginationDto } from '../pagination/PaginationDto';
+import { PaginationMetaInformationDto } from '../pagination/PaginationMetaInformationDto';
 
 @Injectable()
 export class BooksService {
@@ -35,6 +38,27 @@ export class BooksService {
       genres: book.genreIds.map((id) => ({ id })),
       comment: book.comment ? book.comment : undefined,
     });
+  }
+
+  public async getAllBooks(
+    paginationOptionsDto: PaginationOptionsDto,
+  ): Promise<PaginationDto<Book>> {
+    const booksQueryBuilder = this.repository.createQueryBuilder('books');
+
+    const bookList = await booksQueryBuilder
+      .orderBy('books.title')
+      .skip(paginationOptionsDto.skipNumberOfPages)
+      .take(paginationOptionsDto.itemsPerPage)
+      .getMany();
+
+    const numberOfAllItems = await booksQueryBuilder.getCount();
+
+    const paginationMetaDto = new PaginationMetaInformationDto({
+      numberOfAllItems,
+      paginationOptionsDto,
+    });
+
+    return new PaginationDto(bookList, paginationMetaDto);
   }
 
   public async getBookByIdOrTitle(idOrTitle: string): Promise<Book> {
