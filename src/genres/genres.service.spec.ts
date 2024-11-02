@@ -42,6 +42,7 @@ describe('GenresService', () => {
           useValue: {
             save: jest.fn().mockResolvedValue(genre),
             findOneBy: jest.fn().mockResolvedValue(genre),
+            findOne: jest.fn().mockResolvedValue(genre),
             update: jest.fn().mockResolvedValue(updatedGenre),
             delete: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue({
@@ -102,7 +103,7 @@ describe('GenresService', () => {
       await expect(genresService.getGenreById(genreId)).resolves.toEqual(genre),
     ]);
     it('throws an error, if genre does not exist', () => {
-      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
       expect(genresService.getGenreById(genreId)).rejects.toThrow(
         Error(`Could not find genre with id '${genreId}'.`),
       );

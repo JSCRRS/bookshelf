@@ -61,7 +61,10 @@ export class GenresService {
   }
 
   public async getGenreById(id: string): Promise<Genre> {
-    const searchResult = await this.repository.findOneBy({ id: id });
+    const searchResult = await this.repository.findOne({
+      where: { id: id },
+      relations: ['books', 'books.authors', 'books.publisher'],
+    });
     if (searchResult) {
       return searchResult;
     } else {
