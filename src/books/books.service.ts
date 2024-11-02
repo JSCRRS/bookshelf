@@ -73,4 +73,13 @@ export class BooksService {
     }
     return searchResult;
   }
+
+  public async deleteBook(id: string): Promise<void> {
+    const searchResult = await this.repository.findOneBy({ id: id });
+    if (searchResult) {
+      await this.repository.delete(id);
+    } else {
+      throw new NotFoundException(`Book with id '${id}' does not exist.`);
+    }
+  }
 }

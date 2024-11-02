@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Query,
@@ -48,5 +51,16 @@ export class BooksController {
     @Param('idOrTitle') idOrTitle: string,
   ): Promise<Book> {
     return this.service.getBookByIdOrTitle(idOrTitle);
+  }
+
+  @ApiOperation({ summary: 'Delete one book.' })
+  @ApiResponse({
+    status: 204,
+    description: 'Book deleted.',
+  })
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public deleteBook(@Param('id') id: string): Promise<void> {
+    return this.service.deleteBook(id);
   }
 }
