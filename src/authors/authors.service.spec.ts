@@ -59,6 +59,7 @@ describe('AuthorsService', () => {
             save: jest.fn().mockResolvedValue(author),
             delete: jest.fn(),
             findOneBy: jest.fn().mockResolvedValue(author),
+            findOne: jest.fn().mockResolvedValue(author),
             update: jest.fn().mockResolvedValue(updatedAuthor),
             createQueryBuilder: jest.fn().mockReturnValue({
               orderBy: jest.fn().mockReturnThis(),
@@ -109,7 +110,7 @@ describe('AuthorsService', () => {
       expect(authorsService.getAuthorById(authorId)).resolves.toEqual(author);
     });
     it('throws an error, if author does not exist', () => {
-      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
       expect(authorsService.getAuthorById(authorId)).rejects.toThrow(
         Error(`Could not find author with id '${authorId}'.`),
       );

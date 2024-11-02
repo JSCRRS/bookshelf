@@ -62,7 +62,10 @@ export class AuthorsService {
   }
 
   public async getAuthorById(id: string): Promise<Author> {
-    const searchResult = await this.repository.findOneBy({ id: id });
+    const searchResult = await this.repository.findOne({
+      where: [{ id: id }],
+      relations: ['books', 'books.genres', 'books.publisher'],
+    });
     if (searchResult) {
       return searchResult;
     } else {
