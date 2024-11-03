@@ -19,14 +19,14 @@ export class BooksService {
     private readonly repository: Repository<Book>,
   ) {}
 
-  public async createBook(book: CreateBookDto): Promise<any> {
+  public async createBook(book: CreateBookDto): Promise<Book> {
     const searchResult = await this.repository.findOneBy({ title: book.title });
     if (searchResult) {
       throw new ConflictException(
         `Book with title '${book.title}' already exists.`,
       );
     }
-    return await this.repository.save({
+    const newBook = await this.repository.save({
       authors: book.authorIds.map((id) => ({ id })),
       title: book.title,
       year: book.year,
@@ -38,6 +38,10 @@ export class BooksService {
       publisher: { id: book.publisherId },
       genres: book.genreIds.map((id) => ({ id })),
       comment: book.comment ? book.comment : undefined,
+    });
+    return await this.repository.findOne({
+      where: [{ id: newBook.id }],
+      relations: ['authors', 'genres', 'publisher'],
     });
   }
 
