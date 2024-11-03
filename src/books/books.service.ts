@@ -10,6 +10,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 import { PaginationDto } from '../pagination/PaginationDto';
 import { PaginationMetaInformationDto } from '../pagination/PaginationMetaInformationDto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()
 export class BooksService {
@@ -72,6 +73,50 @@ export class BooksService {
       );
     }
     return searchResult;
+  }
+
+  public async updateBook(
+    id: string,
+    updateBookDto: UpdateBookDto,
+  ): Promise<Book> {
+    const searchResult = await this.repository.findOne({
+      where: [{ id: id }],
+      relations: ['authors', 'genres', 'publisher'],
+    });
+    if (searchResult) {
+      await this.repository.save({
+        id,
+        authors: updateBookDto.authorIds
+          ? updateBookDto.authorIds.map((id) => ({ id }))
+          : searchResult.authors,
+        title: updateBookDto.title ? updateBookDto.title : searchResult.title,
+        year: updateBookDto.year ? updateBookDto.year : searchResult.year,
+        yearFirstPublished: updateBookDto.yearFirstPublished
+          ? updateBookDto.yearFirstPublished
+          : searchResult.yearFirstPublished,
+        edition: updateBookDto.edition
+          ? updateBookDto.edition
+          : searchResult.edition,
+        language: updateBookDto.language
+          ? updateBookDto.language
+          : searchResult.language,
+        publisher: updateBookDto.publisherId
+          ? { id: updateBookDto.publisherId }
+          : searchResult.publisher,
+        genres: updateBookDto.genreIds
+          ? updateBookDto.genreIds.map((id) => ({ id }))
+          : searchResult.genres,
+        comment: updateBookDto.comment
+          ? updateBookDto.comment
+          : searchResult.comment,
+      });
+      return await this.repository.findOne({
+        where: [{ id: id }],
+        relations: ['authors', 'genres', 'publisher'],
+      });
+    } else {
+      throw new NotFoundException(`Could not find book with id '${id}'.`);
+    }
   }
 
   public async deleteBook(id: string): Promise<void> {

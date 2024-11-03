@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   UsePipes,
@@ -17,6 +18,7 @@ import { Book } from './book.entity';
 import { CreateBookDto } from './dto/create-book.dto';
 import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
 import { PaginationDto } from '../pagination/PaginationDto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @ApiTags('Books')
 @Controller('/books')
@@ -51,6 +53,17 @@ export class BooksController {
     @Param('idOrTitle') idOrTitle: string,
   ): Promise<Book> {
     return this.service.getBookByIdOrTitle(idOrTitle);
+  }
+
+  @ApiOperation({ summary: 'Update a book.' })
+  @ApiResponse({ status: 200, description: 'Book updated.' })
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  public updateBook(
+    @Param('id') id: string,
+    @Body() book: UpdateBookDto,
+  ): Promise<Book> {
+    return this.service.updateBook(id, book);
   }
 
   @ApiOperation({ summary: 'Delete one book.' })
