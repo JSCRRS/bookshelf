@@ -58,6 +58,10 @@ describe('Books (e2e)', () => {
     genres: [genre],
   };
 
+  const updateBook = {
+    title: 'updatedTitle',
+  };
+
   const metaInformation = {
     currentPage: 1,
     itemsPerPage: 1,
@@ -73,6 +77,9 @@ describe('Books (e2e)', () => {
       return { data: [book], metaInformation };
     },
     getBookByIdOrTitle: () => book,
+    updateBook: () => {
+      return { id: bookId, ...updateBook, ...book };
+    },
     deleteBook: () => {
       return {};
     },
@@ -121,6 +128,14 @@ describe('Books (e2e)', () => {
       .get(`/books/${bookTitle}`)
       .expect(200)
       .expect(booksService.getBookByIdOrTitle());
+  });
+
+  it('updates a book', () => {
+    return request(app.getHttpServer())
+      .patch(`/books/${bookId}`)
+      .send(updateBook)
+      .expect(200)
+      .expect(booksService.updateBook());
   });
 
   it('deletes a book', () => {

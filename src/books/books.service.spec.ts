@@ -5,6 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateBookDto } from './dto/create-book.dto';
 import { PaginationOptionsDto } from '../pagination/PaginationOptionsDto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 const bookId = '111aa111-a11a-111a-a111-11111a111a11';
 const bookTitle = 'test';
@@ -56,6 +57,11 @@ const book = {
   comment: createBookDto.comment,
   authors: [author],
   genres: [genre],
+};
+
+const updatedBook = {
+  title: 'updatedTitle',
+  ...book,
 };
 
 const metaInformation = {
@@ -132,6 +138,23 @@ describe('BooksService', () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(null);
       expect(booksService.getBookByIdOrTitle(bookId)).rejects.toThrow(
         Error(`Could not find book with id or title '${bookId}'.`),
+      );
+    });
+  });
+
+  describe('updateBook()', () => {
+    const updateBook: UpdateBookDto = {
+      title: updatedBook.title,
+    };
+    it('updates a book', () => {
+      expect(booksService.updateBook(bookId, updateBook)).resolves.toEqual(
+        updatedBook,
+      );
+    });
+    it('throws an error, if book could not be found', () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
+      expect(booksService.updateBook(bookId, updateBook)).rejects.toThrow(
+        Error(`Could not find book with id '${bookId}'.`),
       );
     });
   });
