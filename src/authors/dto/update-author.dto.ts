@@ -4,12 +4,12 @@ export class UpdateAuthorDto {
   @IsOptional()
   @MaxLength(50)
   @IsString()
-  public firstName: string;
+  public firstName?: string;
 
   @IsOptional()
   @MaxLength(50)
   @IsString()
-  public lastName: string;
+  public lastName?: string;
 
   @IsOptional()
   @IsString()
