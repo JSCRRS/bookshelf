@@ -19,6 +19,13 @@ export class BooksService {
     private readonly repository: Repository<Book>,
   ) {}
 
+  private async findBookWithRelations(id: string): Promise<Book> {
+    return await this.repository.findOne({
+      where: [{ id: id }],
+      relations: ['authors', 'genres', 'publisher'],
+    });
+  }
+
   public async createBook(book: CreateBookDto): Promise<Book> {
     const searchResult = await this.repository.findOneBy({ title: book.title });
     if (searchResult) {
@@ -39,10 +46,7 @@ export class BooksService {
       genres: book.genreIds.map((id) => ({ id })),
       comment: book.comment ? book.comment : undefined,
     });
-    return await this.repository.findOne({
-      where: [{ id: newBook.id }],
-      relations: ['authors', 'genres', 'publisher'],
-    });
+    return this.findBookWithRelations(newBook.id);
   }
 
   public async getAllBooks(
@@ -83,10 +87,7 @@ export class BooksService {
     id: string,
     updateBookDto: UpdateBookDto,
   ): Promise<Book> {
-    const searchResult = await this.repository.findOne({
-      where: [{ id: id }],
-      relations: ['authors', 'genres', 'publisher'],
-    });
+    const searchResult = await this.findBookWithRelations(id);
     if (searchResult) {
       await this.repository.save({
         id,
@@ -114,10 +115,7 @@ export class BooksService {
           ? updateBookDto.comment
           : searchResult.comment,
       });
-      return await this.repository.findOne({
-        where: [{ id: id }],
-        relations: ['authors', 'genres', 'publisher'],
-      });
+      return await this.findBookWithRelations(id);
     } else {
       throw new NotFoundException(`Could not find book with id '${id}'.`);
     }
