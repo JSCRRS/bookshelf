@@ -11,6 +11,10 @@ async function bootstrap() {
     .setTitle('bookshelf')
     .setDescription('an archive for your books')
     .setVersion('1.0')
+    .addTag('Books')
+    .addTag('Authors')
+    .addTag('Genres')
+    .addTag('Publishers')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);
