@@ -13,7 +13,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Author } from './author.entity';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
@@ -31,6 +38,7 @@ export class AuthorsController {
     description: 'New author created.',
     type: Author,
   })
+  @ApiConflictResponse({ description: 'The author exists already.' })
   @Post()
   public createAuthor(@Body() author: CreateAuthorDto): Promise<Author> {
     return this.service.createAuthor(author);
@@ -52,6 +60,7 @@ export class AuthorsController {
 
   @ApiOperation({ summary: 'Get an author by id.' })
   @ApiResponse({ status: 200, description: 'Author found.', type: Author })
+  @ApiNotFoundResponse({ description: 'Author does not exist.' })
   @Get(':id')
   public getAuthorById(@Param('id') id: string): Promise<Author> {
     return this.service.getAuthorById(id);
@@ -59,6 +68,10 @@ export class AuthorsController {
 
   @ApiOperation({ summary: 'Update an author.' })
   @ApiResponse({ status: 200, description: 'Author updated.', type: Author })
+  @ApiBadRequestResponse({
+    description: 'At least one of the required fields is missing.',
+  })
+  @ApiNotFoundResponse({ description: 'Author does not exist.' })
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   public updateAuthor(
@@ -73,6 +86,7 @@ export class AuthorsController {
     status: 204,
     description: 'Author deleted.',
   })
+  @ApiNotFoundResponse({ description: 'Author does not exist.' })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public deleteAuthor(@Param('id') id: string): Promise<void> {

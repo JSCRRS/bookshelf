@@ -12,7 +12,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { PublishersService } from './publishers.service';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { Publisher } from './publisher.entity';
@@ -27,6 +34,10 @@ export class PublishersController {
 
   @ApiOperation({ summary: 'Create a new publisher.' })
   @ApiResponse({ status: 201, description: 'New publisher created.' })
+  @ApiConflictResponse({ description: 'The publisher exists already.' })
+  @ApiBadRequestResponse({
+    description: 'At least one of the required fields is missing.',
+  })
   @Post()
   public createPublisher(
     @Body() publisher: CreatePublisherDto,
@@ -54,6 +65,7 @@ export class PublishersController {
     description: 'Publisher found.',
     type: Publisher,
   })
+  @ApiNotFoundResponse({ description: 'Publisher does not exist.' })
   @Get(':id')
   public getPublisherById(@Param('id') id: string): Promise<Publisher> {
     return this.service.getPublisherById(id);
@@ -61,6 +73,10 @@ export class PublishersController {
 
   @ApiOperation({ summary: 'Update a publisher.' })
   @ApiResponse({ status: 200, description: 'Publisher updated.' })
+  @ApiNotFoundResponse({ description: 'Publisher does not exist.' })
+  @ApiBadRequestResponse({
+    description: 'At least one of the required fields is missing.',
+  })
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   public updatePublisher(
@@ -72,6 +88,7 @@ export class PublishersController {
 
   @ApiOperation({ summary: 'Delete a publisher.' })
   @ApiResponse({ status: 204, description: 'Publisher deleted.' })
+  @ApiNotFoundResponse({ description: 'Publisher does not exist.' })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public deletePublisher(@Param('id') id: string): Promise<void> {

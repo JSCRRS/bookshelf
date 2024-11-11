@@ -12,7 +12,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GenresService } from './genres.service';
 import { Genre } from './genre.entity';
 import { CreateUpdateGenreDto } from './dto/create-update-genre.dto';
@@ -26,6 +33,10 @@ export class GenresController {
 
   @ApiOperation({ summary: 'Create a new genre.' })
   @ApiResponse({ status: 201, description: 'New genre created.', type: Genre })
+  @ApiConflictResponse({ description: 'The genre exists already.' })
+  @ApiBadRequestResponse({
+    description: 'At least one of the required fields is missing.',
+  })
   @Post()
   public createGenre(@Body() genre: CreateUpdateGenreDto): Promise<Genre> {
     return this.service.createGenre(genre);
@@ -47,6 +58,7 @@ export class GenresController {
 
   @ApiOperation({ summary: 'Get a genre by id.' })
   @ApiResponse({ status: 200, description: 'Genre found.', type: Genre })
+  @ApiNotFoundResponse({ description: 'Genre does not exist.' })
   @Get(':id')
   public getAuthorById(@Param('id') id: string): Promise<Genre> {
     return this.service.getGenreById(id);
@@ -54,6 +66,7 @@ export class GenresController {
 
   @ApiOperation({ summary: 'Update a genre.' })
   @ApiResponse({ status: 200, description: 'Genre updated.' })
+  @ApiNotFoundResponse({ description: 'Genre does not exist.' })
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   public updateGenre(
@@ -68,6 +81,7 @@ export class GenresController {
     status: 204,
     description: 'Genre deleted.',
   })
+  @ApiNotFoundResponse({ description: 'Genre does not exist.' })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public deleteGenre(@Param('id') id: string): Promise<void> {

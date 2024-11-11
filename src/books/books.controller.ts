@@ -12,7 +12,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { BooksService } from './books.service';
 import { Book } from './book.entity';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -27,6 +33,7 @@ export class BooksController {
 
   @ApiOperation({ summary: 'Create a new book.' })
   @ApiResponse({ status: 201, description: 'New book created.', type: Book })
+  @ApiConflictResponse({ description: 'The book exists already.' })
   @Post()
   public createBook(@Body() book: CreateBookDto): Promise<Book> {
     return this.service.createBook(book);
@@ -48,6 +55,7 @@ export class BooksController {
 
   @ApiOperation({ summary: 'Get a book by id or title.' })
   @ApiResponse({ status: 200, description: 'Book found.', type: Book })
+  @ApiNotFoundResponse({ description: 'Book does not exist.' })
   @Get(':idOrTitle')
   public getBookByIdOrTitle(
     @Param('idOrTitle') idOrTitle: string,
@@ -57,6 +65,7 @@ export class BooksController {
 
   @ApiOperation({ summary: 'Update a book.' })
   @ApiResponse({ status: 200, description: 'Book updated.' })
+  @ApiNotFoundResponse({ description: 'Book does not exist.' })
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   public updateBook(
@@ -71,6 +80,7 @@ export class BooksController {
     status: 204,
     description: 'Book deleted.',
   })
+  @ApiNotFoundResponse({ description: 'Book does not exist.' })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public deleteBook(@Param('id') id: string): Promise<void> {
