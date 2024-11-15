@@ -87,6 +87,7 @@ describe('BooksService', () => {
             save: jest.fn().mockResolvedValue(book),
             delete: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue({
+              leftJoinAndSelect: jest.fn().mockReturnThis(),
               orderBy: jest.fn().mockReturnThis(),
               skip: jest.fn().mockReturnThis(),
               take: jest.fn().mockReturnThis(),
