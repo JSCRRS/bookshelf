@@ -55,6 +55,9 @@ export class BooksService {
     const booksQueryBuilder = this.repository.createQueryBuilder('books');
 
     const bookList = await booksQueryBuilder
+      .leftJoinAndSelect('books.authors', 'authors')
+      .leftJoinAndSelect('books.genres', 'genres')
+      .leftJoinAndSelect('books.publisher', 'publisher')
       .orderBy('books.title')
       .skip(paginationOptionsDto.skipNumberOfPages)
       .take(paginationOptionsDto.itemsPerPage)
