@@ -1,0 +1,17 @@
+meta {
+  name: update genre
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/genres/06ee6667-61b1-450d-80c9-fe172a243bcf
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "updated name"
+  }
+}

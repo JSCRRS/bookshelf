@@ -1,0 +1,17 @@
+meta {
+  name: update author
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/authors/90b40215-867e-48bb-b4fc-b317bbd2a855
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "cityOfBirth": "some city"
+  }
+}

@@ -1,0 +1,11 @@
+meta {
+  name: database check
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/health/db
+  body: none
+  auth: none
+}

@@ -1,0 +1,17 @@
+meta {
+  name: update publisher
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/publishers/1699b3ac-cbbb-49b1-835b-7a734f2191c3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "city": "some city"
+  }
+}

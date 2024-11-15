@@ -1,0 +1,17 @@
+meta {
+  name: genre
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/genres
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "some genre"
+  }
+}

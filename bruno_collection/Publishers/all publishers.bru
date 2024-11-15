@@ -1,0 +1,16 @@
+meta {
+  name: all publishers
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/publishers?itemsPerPage=40&currentPage=2
+  body: none
+  auth: none
+}
+
+params:query {
+  itemsPerPage: 40
+  currentPage: 2
+}

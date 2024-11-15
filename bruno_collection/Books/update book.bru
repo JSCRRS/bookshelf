@@ -1,0 +1,19 @@
+meta {
+  name: update book
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/books/69586bfc-5280-4e9b-b6d8-7571c419f2b7
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "title": "updated title",
+      "year": "2002"
+  }
+  
+}

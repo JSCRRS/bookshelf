@@ -1,0 +1,25 @@
+meta {
+  name: book
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/books
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "authorIds": ["148952bb-a242-43ef-8e5b-8fc0eef2f1bb"],
+      "title": "new book",
+      "year": "2000",
+      "yearFirstPublished": "1992",
+      "edition": 1,
+      "genreIds": ["fb0c2c0a-7ceb-46e7-bc2a-78a13671b94f"],
+      "language": "english",
+      "publisherId": "08ae2052-399b-48a1-8722-32cee96dbede"
+  }
+  
+}
