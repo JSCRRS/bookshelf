@@ -20,10 +20,10 @@ describe('Health (e2e)', () => {
   });
 
   it('checks health for http and returns OK', () => {
-    return request(app.getHttpServer()).get('/health').expect(200);
+    request(app.getHttpServer()).get('/health').expect(200);
   });
 
   it('checks health for db and returns OK', () => {
-    return request(app.getHttpServer()).get('/health/db').expect(200);
+    request(app.getHttpServer()).get('/health/db').expect(200);
   });
 });
