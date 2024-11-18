@@ -58,7 +58,7 @@ describe('Genres (e2e)', () => {
   });
 
   it('creates a genre', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .post('/genres')
       .send(genreName)
       .expect(201)
@@ -66,21 +66,21 @@ describe('Genres (e2e)', () => {
   });
 
   it('gets all genres', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get('/genres')
       .expect(200)
       .expect(genresService.getAllGenres());
   });
 
   it('gets a genre', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get(`/genres/${genreId}`)
       .expect(200)
       .expect(genresService.getGenreById());
   });
 
   it('updates a genre', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .patch(`/genres/${genreId}`)
       .send(updateGenre)
       .expect(200)
@@ -88,7 +88,7 @@ describe('Genres (e2e)', () => {
   });
 
   it('deletes a genre', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .delete(`/genres/${genreId}`)
       .expect(204)
       .expect(genresService.deleteGenre());

@@ -74,7 +74,7 @@ describe('Authors (e2e)', () => {
   });
 
   it('creates an author', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .post('/authors')
       .send(createAuthorDto)
       .expect(201)
@@ -82,21 +82,21 @@ describe('Authors (e2e)', () => {
   });
 
   it('gets all authors', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get('/authors')
       .expect(200)
       .expect(authorsService.getAllAuthors());
   });
 
   it('gets an author', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get(`/authors/${authorId}`)
       .expect(200)
       .expect(authorsService.getAuthorById());
   });
 
   it('updates an author', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .patch(`/authors/${authorId}`)
       .send(updateAuthor)
       .expect(200)
@@ -104,7 +104,7 @@ describe('Authors (e2e)', () => {
   });
 
   it('deletes an author', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .delete(`/authors/${authorId}`)
       .expect(204)
       .expect(authorsService.deleteAuthor());

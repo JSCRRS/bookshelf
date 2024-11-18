@@ -58,7 +58,7 @@ describe('Publishers (e2e)', () => {
   });
 
   it('creates a publisher', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .post('/publishers')
       .send(publisherName)
       .expect(201)
@@ -66,21 +66,21 @@ describe('Publishers (e2e)', () => {
   });
 
   it('gets all publishers', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get('/publishers')
       .expect(200)
       .expect(publishersService.getAllPublishers());
   });
 
   it('gets a publisher', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get(`/publishers/${publisherId}`)
       .expect(200)
       .expect(publishersService.getPublisherById());
   });
 
   it('updates a publisher', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .patch(`/publishers/${publisherId}`)
       .send(updatedPublisher)
       .expect(200)
@@ -88,7 +88,7 @@ describe('Publishers (e2e)', () => {
   });
 
   it('deletes a publisher', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .delete(`/publishers/${publisherId}`)
       .expect(204)
       .expect(publishersService.deletePublisher());

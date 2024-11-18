@@ -102,7 +102,7 @@ describe('Books (e2e)', () => {
   });
 
   it('creates a book', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .post('/books')
       .send(createBookDto)
       .expect(201)
@@ -110,28 +110,28 @@ describe('Books (e2e)', () => {
   });
 
   it('gets all books', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get('/books')
       .expect(200)
       .expect(booksService.getAllBooks());
   });
 
   it('gets a book by id', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get(`/books/${bookId}`)
       .expect(200)
       .expect(booksService.getBookByIdOrTitle());
   });
 
   it('gets a book by title', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .get(`/books/${bookTitle}`)
       .expect(200)
       .expect(booksService.getBookByIdOrTitle());
   });
 
   it('updates a book', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .patch(`/books/${bookId}`)
       .send(updateBook)
       .expect(200)
@@ -139,7 +139,7 @@ describe('Books (e2e)', () => {
   });
 
   it('deletes a book', () => {
-    return request(app.getHttpServer())
+    request(app.getHttpServer())
       .delete(`/books/${bookId}`)
       .expect(204)
       .expect(booksService.deleteBook());
